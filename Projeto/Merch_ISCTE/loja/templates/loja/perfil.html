@@ -1,0 +1,35 @@
+{% extends "loja/index.html" %}
+
+{% block title %}
+Perfil
+{% endblock %}
+
+{% block blocotopo %}
+
+{% load static %}
+{% if not request.user.is_superuser %}
+<img src= "{{ request.user.aluno.foto }}" width="100" height="100" >
+
+<p> Email: {{ request.user.aluno.user.email}} </p>
+
+<p> Curso: {{ request.user.aluno.curso }}</p>
+
+{% else %}
+<img src= "{{'/loja/static/media/avatardefault.png'}}" width="100" height="100" >
+{% endif %}
+
+
+<p> Date Joined: {{ request.user.date_joined}} </p>
+
+<p> Last Login: {{ request.user.last_login}} </p>
+
+
+{% endblock %}
+
+{% block blocoopcoes %}
+
+
+<a href="{% url 'loja:index' %}">Voltar</a>
+
+{% endblock %}
+

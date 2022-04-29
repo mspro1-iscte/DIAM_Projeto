@@ -1,0 +1,9 @@
+LINKS:
+
+Headers:
+https://www.tutorialrepublic.com/snippets/preview.php?topic=bootstrap&file=navbar-with-login-form-in-dropdown
+https://www.tutorialrepublic.com/codelab.php?topic=bootstrap&file=navbar-with-login-form-in-dropdown
+
+
+Footers:
+https://www.web-eau.net/blog/10-best-footer-html-css-snippets

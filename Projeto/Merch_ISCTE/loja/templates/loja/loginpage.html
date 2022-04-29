@@ -1,0 +1,39 @@
+{% extends "votacao/index.html" %}
+
+{% block title %}
+    Login
+{% endblock %}
+
+{% block blocotopo %}
+
+    {% if not request.user.is_authenticated %}
+    <h1>Login:</h1>
+
+    {% if error_login %}
+    <h5><strong>{{ error_login }}</strong></h5>
+    {% endif %}
+
+    <form action="{% url 'loja:loginview' %}" method="post">
+        {% csrf_token %}
+        <label class="left">Username:</label>
+        <input class="right" id="username" name="username" type="text" value=""/> <br>
+        <br>
+        <label class="left">Password:</label>
+        <input class="right" id="pass" name="pass" type="password" value=""/> <br>
+        <br>
+        <input class="leftbutton"type="Submit" value="Login"/>
+    </form>
+    <a href="registaruser">Registar novo Utilizador</a>
+    {% else %}
+    <br>
+    <br/> <a href="{% url 'loja:perfil' %}">Ver Perfil</a>
+    <br>
+    <br/> <a href="{% url 'loja:logoutview' %}">Logout</a>
+    {% endif %}
+
+{% endblock %}
+
+
+{% block blocoopcoes %}
+
+{% endblock %}
