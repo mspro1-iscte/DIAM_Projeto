@@ -1,10 +1,10 @@
-{% extends "votacao/index.html" %}
+{% extends "loja/index.html" %}
 
 {% block title %}
     Login
 {% endblock %}
 
-{% block blocotopo %}
+{% block blocobody %}
 
     {% if not request.user.is_authenticated %}
     <h1>Login:</h1>

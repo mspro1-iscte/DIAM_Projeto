@@ -13,8 +13,17 @@ def index(request):
     return render(request, 'loja/index.html')
 
 
-@login_required(login_url='/loja/loginpage')
 def detalhe(request, produto_id):
+    produto = get_object_or_404(Produto, pk=produto_id)
+    return render(request, 'loja/detalhe.html', {'produto': produto})
+
+
+def carrinho(request):
+    return render(request, 'loja/carrinho.html')
+
+
+@login_required(login_url='/loja/index')
+def adicionar_carrinho(request, produto_id):
     produto = get_object_or_404(Produto, pk=produto_id)
     return render(request, 'loja/detalhe.html', {'produto': produto})
 
@@ -35,7 +44,8 @@ def registo(request):
     else:
         cliente = Cliente(user=user, curso=curso)
     cliente.save()
-    return render(request, 'loja/loginpage.html')
+    login(request, user)
+    return render(request, 'loja/index.html')
 
 
 def perfil(request):
@@ -49,9 +59,9 @@ def loginview(request):
     user = authenticate(username=username, password=password)
     if user is not None:
         login(request, user)
-        return HttpResponseRedirect(reverse('loja:index'))
+        return render(request, 'loja/index.html')
     else:
-        return render(request, 'loja/loginpage.html')
+        return render(request, 'loja/index.html')
 
 
 def loginpage(request):
@@ -60,7 +70,7 @@ def loginpage(request):
 
 def logoutview(request):
     logout(request)
-    return render(request, 'loja/loginpage.html')
+    return render(request, 'loja/index.html')
 
 
 def registaruser(request):

@@ -21,4 +21,10 @@ urlpatterns = [
 
     # ex: loja/perfil
     path('perfil', views.perfil, name='perfil'),
+
+    # ex: loja/adicionar_carrinho
+    path('adicionar_carrinho', views.adicionar_carrinho, name='adicionar_carrinho'),
+    # ex: loja/carrinho
+    path('carrinho', views.carrinho, name='carrinho'),
+
 ]

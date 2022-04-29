@@ -22,7 +22,7 @@ class Produto(models.Model):
 class Cliente(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     curso = models.CharField(max_length=100)
-    foto = models.CharField(max_length=100, default='/votacao/static/media/avatardefault.png')
+    foto = models.CharField(max_length=100, default='/loja/static/media/avatardefault.png')
 
 
 class Conta(models.Model):

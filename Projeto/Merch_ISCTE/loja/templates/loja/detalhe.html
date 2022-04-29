@@ -1,54 +1,20 @@
-{% extends "votacao/index.html" %}
+{% extends "loja/index.html" %}
 
 {% block title %}
     Lista
 {% endblock %}
 
-{% block blocotopo %}
+{% block blocobody %}
 
-<h1>{{ questao.questao_texto }}</h1>
 
 {% if error_message %}
     <p><strong>{{ error_message }}</strong></p>
 {% endif %}
 
-{% endblock %}
 
-{% block blocoopcoes %}
-
-<form action="{% url 'votacao:voto' questao.id %}" method="post">
+<form action="{% url 'loja:voto' produto.id %}" method="post">
     {% csrf_token %}
-    {% for opcao in questao.opcao_set.all %}
-        <input type="radio" name="opcao"
-         id="opcao{{ forloop.counter }}"
-         value="{{ opcao.id }}" />
-        <label for="opcao{{ forloop.counter }}">
-           {{ opcao.opcao_texto }}
-        </label>
-        <br />
-    {% endfor %} <br>
-    <br/>
 
-    {% if request.user.is_authenticated %}
-
-    <input type="submit" value="Voto" /> <br>
-    <br/>
-
-    {% endif %}
-
-    {% if request.user.is_superuser %}
-
-    <input type="submit" value="Criar nova Opção" formaction="{% url 'votacao:criaropcao' questao.id %}"/> <br>
-    <br/>
-    <input type="submit" value="Apagar esta Questão" formaction="{% url 'votacao:apagarquestao' questao.id %}"/> <br>
-    <br/>
-    <input type="submit" value="Apagar uma Opção" formaction="{% url 'votacao:apagaropcao' questao.id %}"/>
-    <!-- apagar questao nao está a enviar erro de nao haver nd selecionado -->
-
-    {% endif %}
-
-    <br>
-    <a href="{% url 'votacao:index' %}">Voltar</a>
 
 </form>
 
