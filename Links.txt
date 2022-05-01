@@ -7,3 +7,12 @@ https://www.tutorialrepublic.com/codelab.php?topic=bootstrap&file=navbar-with-lo
 
 Footers:
 https://www.web-eau.net/blog/10-best-footer-html-css-snippets
+
+
+Inspiration:
+https://bootstrap-ecommerce.com/components.html
+https://colorlib.com/wp/free-bootstrap-ecommerce-website-templates/
+
+Filter/Portfolio:
+https://elad.medium.com/the-css-grid-methods-e75ce54d1da2
+https://travishorn.com/responsive-grid-in-2-minutes-with-css-grid-layout-4842a41420fe

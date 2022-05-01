@@ -1,0 +1,32 @@
+{% extends "loja/index.html" %}
+
+{% block title %}
+    Categoria
+{% endblock %}
+
+{% block blocobody %}
+
+
+{% if error_lista_produto %}
+    <p><strong>{{ error_message }}</strong></p>
+{% endif %}
+
+{% if lista_categoria %}
+<ul class="common-list">
+    {% for categoria in lista_categoria %}
+    <li class="common-list-item">
+        <a href="{% url 'loja:detalhe_categoria' categoria.id %}">
+         <img max-width="30px" src="{{ categoria.foto }}" >
+      </a>
+        <h4>{{ categoria.categoria_nome }}</h4>
+    </li>
+
+    {% endfor %}
+</ul>
+{% else %}
+<p>Nao ha categorias disponíveis.</p>
+{% endif %}
+
+{% endblock %}
+
+

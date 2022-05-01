@@ -4,18 +4,18 @@
 Perfil
 {% endblock %}
 
-{% block blocotopo %}
+{% block blocobody %}
 
 {% load static %}
 {% if not request.user.is_superuser %}
-<img src= "{{ request.user.aluno.foto }}" width="100" height="100" >
+<img src= "{{ request.user.cliente.foto }}" width="100" height="100" >
 
-<p> Email: {{ request.user.aluno.user.email}} </p>
+<p> Email: {{ request.user.cliente.user.email}} </p>
 
-<p> Curso: {{ request.user.aluno.curso }}</p>
+<p> Curso: {{ request.user.cliente.curso }}</p>
 
 {% else %}
-<img src= "{{'/loja/static/media/avatardefault.png'}}" width="100" height="100" >
+<img src= "{{'/static/media/avatardefault.png'}}" width="100" height="100" >
 {% endif %}
 
 
@@ -26,10 +26,4 @@ Perfil
 
 {% endblock %}
 
-{% block blocoopcoes %}
-
-
-<a href="{% url 'loja:index' %}">Voltar</a>
-
-{% endblock %}
 

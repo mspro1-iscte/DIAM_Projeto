@@ -16,8 +16,6 @@ urlpatterns = [
     # ex: loja/logoutview
     path('logoutview', views.logoutview, name='logoutview'),
 
-    # ex: loja/loginpage
-    path('loginpage', views.loginpage, name='loginpage'),
 
     # ex: loja/perfil
     path('perfil', views.perfil, name='perfil'),
@@ -26,5 +24,16 @@ urlpatterns = [
     path('adicionar_carrinho', views.adicionar_carrinho, name='adicionar_carrinho'),
     # ex: loja/carrinho
     path('carrinho', views.carrinho, name='carrinho'),
+
+    # ex: loja/detalhe_produto
+    path('detalhe_produto', views.detalhe_produto, name='detalhe_produto'),
+
+    # ex: loja/detalhe_categoria
+    path('detalhe_categoria', views.detalhe_categoria, name='detalhe_categoria'),
+    # ex: loja/nova_categoria
+    path('nova_categoria', views.nova_categoria, name='nova_categoria'),
+
+    # ex: loja/novo_produto
+    path('novo_produto', views.novo_produto, name='novo_produto'),
 
 ]
