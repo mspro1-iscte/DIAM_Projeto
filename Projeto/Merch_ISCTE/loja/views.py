@@ -70,10 +70,7 @@ def novo_produto(request):
     produto_texto = request.POST['produto_texto']
     preco_data = request.POST['preco_data']
     categoria_select = request.POST['categoria_select']
-
-    for categoria in Categoria.objects.all():
-        if categoria.categoria_nome == categoria_select:
-            cat = categoria
+    cat = get_object_or_404(Categoria, pk=categoria_select)
 
     if bool(request.FILES.get('produto_file', False)):
         myfile = request.FILES['produto_file']

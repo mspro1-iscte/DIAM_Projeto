@@ -1,6 +1,5 @@
 from django.contrib.auth.models import User
 from django.db import models
-from six import string_types
 
 
 class Categoria(models.Model):
@@ -8,7 +7,7 @@ class Categoria(models.Model):
     foto = models.CharField(max_length=100, default='/static/media/computer.png')
 
     def __str__(self):
-        return self
+        return self.categoria_nome
 
 
 class Produto(models.Model):

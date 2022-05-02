@@ -145,7 +145,7 @@
                 <select id="categoria_select" name="categoria_select">
                     {% if lista_categoria %}
                     {% for categoria in lista_categoria %}
-                    <option value="{{ categoria.categoria_nome }}">{{ categoria.categoria_nome }}</option>
+                    <option value="{{ categoria.id }}">{{ categoria.categoria_nome }}</option>
                     {% endfor %}
                     {% endif %}
                 </select>
@@ -164,7 +164,7 @@
 <ul class="common-list">
     {% for categoria in lista_categoria %}
     <li class="common-list-item">
-        <a href="{% url 'loja:detalhe_categoria' categoria.id %}">
+        <a href="#">
             <img max-width="30px" src="{{ categoria.foto }}">
         </a>
         <h4>{{ categoria.categoria_nome }}</h4>
