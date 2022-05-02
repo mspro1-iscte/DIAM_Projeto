@@ -15,7 +15,12 @@
 <ul class="common-list">
     {% for produto in lista_produtos %}
     <li class="common-list-item">
-        <h4>{{ produto }}</h4>
+        <a href="{% url 'loja:detalhe_produto' produto.id %}">
+            <img width="250" height="250" src="{{ produto.foto }}">
+        </a>
+        <h4>{{ produto.produto_nome }}</h4>
+        <h4>{{ produto.produto_texto }}</h4>
+        <h4>{{ produto.preco_data }}</h4>
     </li>
 
     {% endfor %}

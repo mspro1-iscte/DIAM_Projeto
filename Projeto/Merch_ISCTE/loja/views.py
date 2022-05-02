@@ -42,7 +42,12 @@ def detalhe_produto(request, produto_id):
 
 def detalhe_categoria(request, categoria_id):
     categoria = get_object_or_404(Categoria, pk=categoria_id)
-    return render(request, 'loja/detalhe_categoria.html', {'categoria': categoria})
+    lista_produtos = []
+    for p in Produto.objects.all():
+        if p.categoria_id == categoria_id:
+            lista_produtos.append(p)
+    context = {'lista_produtos': lista_produtos}
+    return render(request, 'loja/detalhe_categoria.html', context)
 
 # <!-- {% url 'loja:detalhe_categoria' categoria.id %} -->
 

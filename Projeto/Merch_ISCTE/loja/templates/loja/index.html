@@ -61,7 +61,9 @@
                 </div>
             </form>
             <div class="navbar-nav action-buttons ml-auto">
-                <a class="nav-item nav-link active" href="{% url 'loja:carrinho' %}">Carrinho</a>
+                <a href="{% url 'loja:carrinho' %}">
+                    <img width="35" height="35" src="{{'/static/media/shoppingcart.png'}}">
+                </a>
 
                 {% if not request.user.is_authenticated %}
                 <a class="nav-item nav-link dropdown-toggle mr-3" data-toggle="dropdown" href="#">Login</a>
@@ -164,7 +166,7 @@
 <ul class="common-list">
     {% for categoria in lista_categoria %}
     <li class="common-list-item">
-        <a href="#">
+        <a href="{% url 'loja:detalhe_categoria' categoria.id %}">
             <img max-width="30px" src="{{ categoria.foto }}">
         </a>
         <h4>{{ categoria.categoria_nome }}</h4>

@@ -26,10 +26,10 @@ urlpatterns = [
     path('carrinho', views.carrinho, name='carrinho'),
 
     # ex: loja/detalhe_produto
-    path('detalhe_produto', views.detalhe_produto, name='detalhe_produto'),
+    path('detalhe_produto/<int:produto_id>', views.detalhe_produto, name='detalhe_produto'),
 
     # ex: loja/detalhe_categoria
-    path('detalhe_categoria', views.detalhe_categoria, name='detalhe_categoria'),
+    path('detalhe_categoria/<int:categoria_id>', views.detalhe_categoria, name='detalhe_categoria'),
     # ex: loja/nova_categoria
     path('nova_categoria', views.nova_categoria, name='nova_categoria'),
 
