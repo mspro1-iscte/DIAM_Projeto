@@ -21,7 +21,9 @@ urlpatterns = [
     path('perfil', views.perfil, name='perfil'),
 
     # ex: loja/adicionar_carrinho
-    path('adicionar_carrinho', views.adicionar_carrinho, name='adicionar_carrinho'),
+    path('adicionar_carrinho/<int:produto_id>', views.adicionar_carrinho, name='adicionar_carrinho'),
+    # ex: loja/remover_carrinho
+    path('remover_carrinho/<int:produto_id>', views.remover_carrinho, name='remover_carrinho'),
     # ex: loja/carrinho
     path('carrinho', views.carrinho, name='carrinho'),
 
@@ -35,5 +37,10 @@ urlpatterns = [
 
     # ex: loja/novo_produto
     path('novo_produto', views.novo_produto, name='novo_produto'),
+
+    # ex: loja/apagar_categoria
+    path('apagar_categoria/<int:categoria_id>', views.apagar_categoria, name='apagar_categoria'),
+    # ex: loja/apagar_produto
+    path('apagar_produto/<int:produto_id>', views.apagar_produto, name='apagar_produto'),
 
 ]

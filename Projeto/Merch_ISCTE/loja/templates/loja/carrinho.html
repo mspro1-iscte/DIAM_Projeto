@@ -6,6 +6,23 @@
 
 {% block blocobody %}
 
+{% if lista_carrinho %}
+<ul class="common-list">
+    {% for produto in lista_carrinho %}
+    <li class="common-list-item">
+        <a href="#">
+            <img width="100" height="100" src="{{ produto.foto }}">
+        </a>
+        <h4>{{ produto.produto_nome }}</h4>
+        <h5>{{ produto.preco_data }}</h5>
+        <button type="remove_carrinho">Remover do Carrinho</button>
+    </li>
+
+    {% endfor %}
+</ul>
+{% else %}
+<p>Não há produtos no Carrinho.</p>
+{% endif %}
 
 
 {% endblock %}

@@ -1,16 +1,25 @@
 {% extends "loja/index.html" %}
 
 {% block title %}
-    Lista
+Lista
 {% endblock %}
 
 {% block blocobody %}
 
 
 {% if error_message %}
-    <p><strong>{{ error_message }}</strong></p>
+<p><strong>{{ error_message }}</strong></p>
 {% endif %}
 
+<form action="{% url 'loja:adicionar_carrinho' produto.id %}" enctype="multipart/form-data" method="post">
+    {% csrf_token %}
+    <input class="btn btn-primary btn-block" id="add_carrinho" name="add_carrinho" type="submit"
+           value="Adicionar ao Carrinho">
+</form>
+
+{% if request.user.is_superuser %}
+<a href="{% url 'loja:apagar_produto' produto.id %}">Apagar Produto</a>
+{% endif %}
 
 {% endblock %}
 

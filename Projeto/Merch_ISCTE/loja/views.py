@@ -46,10 +46,8 @@ def detalhe_categoria(request, categoria_id):
     for p in Produto.objects.all():
         if p.categoria_id == categoria_id:
             lista_produtos.append(p)
-    context = {'lista_produtos': lista_produtos}
+    context = {'lista_produtos': lista_produtos, 'categoria': categoria}
     return render(request, 'loja/detalhe_categoria.html', context)
-
-# <!-- {% url 'loja:detalhe_categoria' categoria.id %} -->
 
 
 def carrinho(request):
@@ -95,7 +93,24 @@ def novo_produto(request):
 
 def adicionar_carrinho(request, produto_id):
     produto = get_object_or_404(Produto, pk=produto_id)
+
+    if 'lista_carrinho' not in request.session:
+        request.session['lista_carrinho'] = [produto]
+
+    else:
+        lista_carrinho = request.session['lista_carrinho']
+        lista_carrinho.append(produto)
+        request.session['lista_carrinho'] = lista_carrinho
     return render(request, 'loja/detalhe_produto.html', {'produto': produto})
+
+
+def remover_carrinho(request, produto_id):
+    produto = get_object_or_404(Produto, pk=produto_id)
+
+    if request.method == 'POST':
+        remove_carrinho = request.POST['remove_carrinho']
+        request.session['lista_carrinho'] -= [remove_carrinho]
+    return render(request, 'loja/carrinho.html', {'produto': produto})
 
 
 def registo(request):
@@ -121,3 +136,16 @@ def registo(request):
 def perfil(request):
     cliente = Cliente.objects.filter(user=request.user)
     return render(request, 'loja/perfil.html', {'cliente': cliente})
+
+
+def apagar_categoria(request, categoria_id):
+    record = Categoria.objects.get(id=categoria_id)
+    record.delete()
+    return HttpResponseRedirect(reverse('loja:index'))
+
+
+def apagar_produto(request, produto_id):
+    record = Produto.objects.get(id=produto_id)
+    record.delete()
+    return HttpResponseRedirect(reverse('loja:index'))
+

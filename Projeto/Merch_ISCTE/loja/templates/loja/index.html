@@ -104,6 +104,8 @@
 {% else %}
 {% endif %}
 
+<p>{{ request.session.name }}</p>
+
 {% endblock %}
 
 {% block blocobody %}
@@ -111,9 +113,9 @@
 {% if request.user.is_superuser %}
 
 <div class="navbar-nav action-buttons ml-auto">
-    <a class="nav-item nav-link dropdown-toggle mr-3" data-toggle="dropdown" enctype="multipart/form-data" href="#">Criar Categoria</a>
+    <a class="nav-item nav-link dropdown-toggle mr-3" data-toggle="dropdown" href="#">Criar Categoria</a>
     <div class="dropdown-menu categoria-form">
-        <form action="{% url 'loja:nova_categoria' %}" method="post">
+        <form action="{% url 'loja:nova_categoria' %}" enctype="multipart/form-data" method="post">
             {% csrf_token %}
             <div class="form-group">
                 <label>Categoria</label>
@@ -175,18 +177,14 @@
     {% endfor %}
 </ul>
 {% else %}
-<p>Nao ha categorias disponíveis.</p>
+<p>Não há categorias disponíveis.</p>
 {% endif %}
 
 
 {% endblock %}
 
 
-{% block lista-main %}
 
-<a class="btn btn-primary" href="#">X</a>
-
-{% endblock %}
 
 {% block footer %}
 

@@ -1,14 +1,14 @@
 {% extends "loja/index.html" %}
 
 {% block title %}
-    Categoria
+Categoria
 {% endblock %}
 
 {% block blocobody %}
 
 
 {% if error_lista_produto %}
-    <p><strong>{{ error_message }}</strong></p>
+<p><strong>{{ error_message }}</strong></p>
 {% endif %}
 
 {% if lista_produtos %}
@@ -16,18 +16,31 @@
     {% for produto in lista_produtos %}
     <li class="common-list-item">
         <a href="{% url 'loja:detalhe_produto' produto.id %}">
-            <img width="250" height="250" src="{{ produto.foto }}">
+            <img height="250" src="{{ produto.foto }}" width="250">
         </a>
         <h4>{{ produto.produto_nome }}</h4>
-        <h4>{{ produto.produto_texto }}</h4>
-        <h4>{{ produto.preco_data }}</h4>
+        <h5>{{ produto.produto_texto }}</h5>
+        <h5>{{ produto.preco_data }}</h5>
+        <form action="{% url 'loja:adicionar_carrinho' produto.id %}" enctype="multipart/form-data" method="post">
+            {% csrf_token %}
+            <input class="btn btn-primary btn-block" id="add_carrinho" name="add_carrinho" type="submit"
+                   value="Adicionar ao Carrinho">
+        </form>
     </li>
 
     {% endfor %}
 </ul>
 {% else %}
-<p>Nao ha produtos disponíveis.</p>
+<p>Não há produtos disponíveis.</p>
+
+<p>Pode Apagar a Categoria:</p>
+
+{% if request.user.is_superuser %}
+<a href="{% url 'loja:apagar_categoria' categoria.id %}">Apagar Categoria</a>
 {% endif %}
+
+{% endif %}
+
 
 {% endblock %}
 
