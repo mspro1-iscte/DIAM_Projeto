@@ -11,20 +11,17 @@
     <p><strong>{{ error_message }}</strong></p>
 {% endif %}
 
-{% if lista_categoria %}
+{% if lista_produtos %}
 <ul class="common-list">
-    {% for categoria in lista_categoria %}
+    {% for produto in lista_produtos %}
     <li class="common-list-item">
-        <a href="{% url 'loja:detalhe_categoria' categoria.id %}">
-         <img max-width="30px" src="{{ categoria.foto }}" >
-      </a>
-        <h4>{{ categoria.categoria_nome }}</h4>
+        <h4>{{ produto }}</h4>
     </li>
 
     {% endfor %}
 </ul>
 {% else %}
-<p>Nao ha categorias disponíveis.</p>
+<p>Nao ha produtos disponíveis.</p>
 {% endif %}
 
 {% endblock %}

@@ -11,7 +11,7 @@ from .models import Cliente, Produto, Categoria
 
 def index(request):
     lista_categoria = Categoria.objects.all()
-    context = {'lista_categoria': lista_categoria, 'error_lista_categoria': "- Erro Lista Categoria", }
+    context = {'lista_categoria': lista_categoria}
     return render(request, 'loja/index.html', context)
 
 
@@ -42,9 +42,9 @@ def detalhe_produto(request, produto_id):
 
 def detalhe_categoria(request, categoria_id):
     categoria = get_object_or_404(Categoria, pk=categoria_id)
-    lista_produtos = Produto.objects.all()
-    context = {'lista_produtos': lista_produtos, 'error_lista_produto': "- Erro Lista Produto", }
-    return render(request, 'loja/detalhe_categoria.html', {'categoria': categoria}, context)
+    return render(request, 'loja/detalhe_categoria.html', {'categoria': categoria})
+
+# <!-- {% url 'loja:detalhe_categoria' categoria.id %} -->
 
 
 def carrinho(request):
@@ -67,16 +67,27 @@ def nova_categoria(request):
 
 def novo_produto(request):
     produto_nome = request.POST['produto_nome']
+    produto_texto = request.POST['produto_texto']
+    preco_data = request.POST['preco_data']
+    categoria_select = request.POST['categoria_select']
+
+    for categoria in Categoria.objects.all():
+        if categoria.categoria_nome == categoria_select:
+            cat = categoria
 
     if bool(request.FILES.get('produto_file', False)):
         myfile = request.FILES['produto_file']
         fs = FileSystemStorage()
         filename = fs.save(myfile.name, myfile)
         uploaded_file_url = fs.url(filename)
-        categoria = Categoria(categoria_nome=produto_nome, foto=uploaded_file_url)
+        produto = Produto(produto_nome=produto_nome, produto_texto=produto_texto, preco_data=preco_data,
+                          categoria=cat, foto=uploaded_file_url)
+
     else:
-        categoria = Categoria(categoria_nome=produto_nome)
-    categoria.save()
+        produto = Produto(produto_nome=produto_nome, produto_texto=produto_texto, preco_data=preco_data,
+                          categoria=cat)
+    produto.save()
+
     return HttpResponseRedirect(reverse('loja:index'))
 
 
@@ -108,5 +119,3 @@ def registo(request):
 def perfil(request):
     cliente = Cliente.objects.filter(user=request.user)
     return render(request, 'loja/perfil.html', {'cliente': cliente})
-
-

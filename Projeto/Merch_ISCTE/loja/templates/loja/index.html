@@ -109,7 +109,7 @@
 {% if request.user.is_superuser %}
 
 <div class="navbar-nav action-buttons ml-auto">
-    <a class="nav-item nav-link dropdown-toggle mr-3" data-toggle="dropdown" href="#">Criar Categoria</a>
+    <a class="nav-item nav-link dropdown-toggle mr-3" data-toggle="dropdown" enctype="multipart/form-data" href="#">Criar Categoria</a>
     <div class="dropdown-menu categoria-form">
         <form action="{% url 'loja:nova_categoria' %}" method="post">
             {% csrf_token %}
@@ -125,6 +125,10 @@
     </div>
 </div>
 
+{% if uploaded_file_url %}
+<p>File uploaded at: <a href="{{ uploaded_file_url }}">{{ uploaded_file_url }}</a></p>
+{% endif %}
+
 <div class="navbar-nav action-buttons ml-auto">
     <a class="nav-item nav-link dropdown-toggle mr-3" data-toggle="dropdown" href="#">Criar Produto</a>
     <div class="dropdown-menu categoria-form">
@@ -132,17 +136,17 @@
             {% csrf_token %}
             <div class="form-group">
                 <label>Nome</label>
-                <input class="form-control" id="produto_nome" name="categoria_nome" required="required" type="text">
+                <input class="form-control" id="produto_nome" name="produto_nome" required="required" type="text">
                 <label>Descrição</label>
-                <input class="form-control" id="produto_texto" name="categoria_nome" type="text">
+                <input class="form-control" id="produto_texto" name="produto_texto" type="text">
                 <label>Preço</label>
-                <input class="form-control" id="preco" name="categoria_nome" required="required" type="number">
+                <input class="form-control" id="preco_data" name="preco_data" required="required" type="number" min="0.01" step="0.01">
                 <label for="categoria_select">Categoria:</label>
                 <select id="categoria_select" name="categoria_select">
                     {% if lista_categoria %}
-                        {% for categoria in lista_categoria %}
-                        <option value="{{ categoria.categoria_nome }}">{{ categoria.categoria_nome }}</option>
-                        {% endfor %}
+                    {% for categoria in lista_categoria %}
+                    <option value="{{ categoria.categoria_nome }}">{{ categoria.categoria_nome }}</option>
+                    {% endfor %}
                     {% endif %}
                 </select>
                 <br>
@@ -156,16 +160,11 @@
 
 {% endif %}
 
-
-{% if error_lista_categoria %}
-<p><strong>{{ error_message }}</strong></p>
-{% endif %}
-
 {% if lista_categoria %}
 <ul class="common-list">
     {% for categoria in lista_categoria %}
     <li class="common-list-item">
-        <a href="#">
+        <a href="{% url 'loja:detalhe_categoria' categoria.id %}">
             <img max-width="30px" src="{{ categoria.foto }}">
         </a>
         <h4>{{ categoria.categoria_nome }}</h4>
@@ -184,7 +183,6 @@
 {% block lista-main %}
 
 <a class="btn btn-primary" href="#">X</a>
-
 
 {% endblock %}
 
