@@ -60,7 +60,7 @@ def nova_categoria(request):
         myfile = request.FILES['categoria_file']
         fs = FileSystemStorage()
         filename = fs.save(myfile.name, myfile)
-        uploaded_file_url = fs.url(filename)
+        uploaded_file_url = fs.url(filename)[5:]  # remover /loja
         categoria = Categoria(categoria_nome=categoria_nome, foto=uploaded_file_url)
     else:
         categoria = Categoria(categoria_nome=categoria_nome)
@@ -79,7 +79,7 @@ def novo_produto(request):
         myfile = request.FILES['produto_file']
         fs = FileSystemStorage()
         filename = fs.save(myfile.name, myfile)
-        uploaded_file_url = fs.url(filename)
+        uploaded_file_url = fs.url(filename)[5:]  # remover /loja
         produto = Produto(produto_nome=produto_nome, produto_texto=produto_texto, preco_data=preco_data,
                           categoria=cat, foto=uploaded_file_url)
 
@@ -124,7 +124,7 @@ def registo(request):
         myfile = request.FILES['myfile']
         fs = FileSystemStorage()
         filename = fs.save(myfile.name, myfile)
-        uploaded_file_url = fs.url(filename)
+        uploaded_file_url = fs.url(filename)[5:]  # remover /loja
         cliente = Cliente(user=user, curso=curso, foto=uploaded_file_url)
     else:
         cliente = Cliente(user=user, curso=curso)
@@ -148,4 +148,3 @@ def apagar_produto(request, produto_id):
     record = Produto.objects.get(id=produto_id)
     record.delete()
     return HttpResponseRedirect(reverse('loja:index'))
-

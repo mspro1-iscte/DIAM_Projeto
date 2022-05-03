@@ -169,7 +169,7 @@
     {% for categoria in lista_categoria %}
     <li class="common-list-item">
         <a href="{% url 'loja:detalhe_categoria' categoria.id %}">
-            <img max-width="30px" src="{{ categoria.foto }}">
+            <img width="250" height="250" src="{{ categoria.foto }}">
         </a>
         <h4>{{ categoria.categoria_nome }}</h4>
     </li>
