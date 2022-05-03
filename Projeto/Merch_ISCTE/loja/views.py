@@ -15,6 +15,13 @@ def index(request):
     return render(request, 'loja/index.html', context)
 
 
+def teste(request):
+    lista_categoria = Categoria.objects.all()
+    lista_produto = Produto.objects.all()
+    context = {'lista_categoria': lista_categoria, 'lista_produto': lista_produto}
+    return render(request, 'loja/teste.html', context)
+
+
 def loginview(request):
     username = request.POST['username']
     password = request.POST['pass']
@@ -101,6 +108,7 @@ def adicionar_carrinho(request, produto_id):
         lista_carrinho = request.session['lista_carrinho']
         lista_carrinho.append(produto)
         request.session['lista_carrinho'] = lista_carrinho
+        print(lista_carrinho)
     return render(request, 'loja/detalhe_produto.html', {'produto': produto})
 
 
