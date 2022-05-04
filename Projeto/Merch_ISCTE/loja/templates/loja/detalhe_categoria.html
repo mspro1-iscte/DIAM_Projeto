@@ -5,11 +5,10 @@ Categoria
 {% endblock %}
 
 {% block blocobody %}
-<p>AQUI</p>
 <div class="container-fluid d-md-flex align-items-stretch">
 
     <div id="content" class="p-4 p-md-5 pt-5">
-        <p>{{ categoria.categoria_nome }}</p>
+        <p>Category: {{ categoria.categoria_nome }}</p>
         {% if lista_produto %}
         <div class="row justify-content-center" style="margin-left:0px;margin-right:0px;">
             {% for produto in lista_produto %}
