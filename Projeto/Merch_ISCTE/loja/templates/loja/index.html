@@ -77,6 +77,11 @@
                 <a class="btn btn-outline-success" href="{% url 'loja:registaruser' %}" type="submit">Registar</a>
                 {% else %}
                 <li class="nav-item">
+                    <a href="{% url 'loja:carrinho' %}" class="btn ">
+                        <img width="35" height="35" src="{{'/static/media/shoppingcart.png'}}">
+                    </a>
+                </li>
+                <li class="nav-item">
                     <a class="nav-link active" aria-current="page" href="{% url 'loja:perfil' %}">Perfil</a>
                 </li>
                 <li class="nav-item">
@@ -96,20 +101,6 @@
         <p>All Products</p>
         {% if lista_produto %}
         <div class="row justify-content-center" style="margin-left:0px;margin-right:0px;">
-            {% if request.user.is_superuser %}
-            <div class="card" style="width: 18rem;">
-                <img src="/static/media/computer.png" class="card-img-top" alt="...">
-                <div class="card-body">
-                    <h5 class="card-title">Produto Nome</h5>
-                </div>
-                <ul class="list-group list-group-flush">
-                    <li class="list-group-item">Preço: Produto Preço</li>
-                </ul>
-                <div class="card-body">
-                    <a href="CriarProduto">Criar Produto</a>
-                </div>
-            </div>
-            {% endif %}
             {% for produto in lista_produto %}
 
             <div class="card" style="width: 18rem;">
@@ -121,7 +112,7 @@
                     <li class="list-group-item">Preço: {{ produto.preco_data }}</li>
                 </ul>
                 <div class="card-body">
-                    <a href="{% url 'loja:carrinho' %}" class="btn ">
+                    <a href="{% url 'loja:adicionar_carrinho' produto.id %}" class="btn ">
                         <img width="35" height="35" src="{{'/static/media/shoppingcart.png'}}">
                     </a>
                     <button type="button" class="btn btn-primary" data-bs-toggle="modal"
@@ -133,7 +124,7 @@
                         <div class="modal-dialog">
                             <div class="modal-content">
                                 <div class="modal-header">
-                                    <h5 class="modal-title" id="staticBackdropLabel">Modal title</h5>
+                                    <h5 class="modal-title" id="staticBackdropLabel">{{ produto.produto_nome }}</h5>
                                     <button type="button" class="btn-close" data-bs-dismiss="modal"
                                             aria-label="Close"></button>
                                 </div>
@@ -150,6 +141,7 @@
                     </div>
                     {% if request.user.is_superuser %}
                     <a href="{% url 'loja:apagar_produto' produto.id %}">Apagar Produto</a>
+                    <a href="#">Editar Produto</a>
                     {% endif %}
                 </div>
             </div>
@@ -171,7 +163,7 @@
                 {% endfor %}
                 {% if request.user.is_superuser %}
                 <li>
-                    <a href="CriarCategoria">Criar nova categoria</a>
+                    <a href="criar_categoria">Criar nova categoria</a>
                 </li>
                 {% endif %}
             </ul>
@@ -183,44 +175,6 @@
 </div>
 
 {% endblock %}
-
-
-<form action="{% url 'loja:nova_categoria' %}" enctype="multipart/form-data" method="post">
-    {% csrf_token %}
-    <div class="form-group">
-        <label>Categoria</label>
-        <input class="form-control" id="categoria_nome" name="categoria_nome" required="required"
-               type="text">
-        <label>Imagem</label>
-        <input class="form-control" id="categoria_file" name="categoria_file" type="file">
-    </div>
-    <input class="btn btn-primary btn-block" type="submit" value="Criar">
-</form>
-
-<form action="{% url 'loja:novo_produto' %}" method="post">
-    {% csrf_token %}
-    <div class="form-group">
-        <label>Nome</label>
-        <input class="form-control" id="produto_nome" name="produto_nome" required="required" type="text">
-        <label>Descrição</label>
-        <input class="form-control" id="produto_texto" name="produto_texto" type="text">
-        <label>Preço</label>
-        <input class="form-control" id="preco_data" name="preco_data" required="required" type="number"
-               min="0.01" step="0.01">
-        <label for="categoria_select">Categoria:</label>
-        <select id="categoria_select" name="categoria_select">
-            {% if lista_categoria %}
-            {% for categoria in lista_categoria %}
-            <option value="{{ categoria.id }}">{{ categoria.categoria_nome }}</option>
-            {% endfor %}
-            {% endif %}
-        </select>
-        <br>
-        <label>Imagem</label>
-        <input class="form-control" id="produto_file" name="file" type="file">
-    </div>
-    <input class="btn btn-primary btn-block" type="submit" value="Criar">
-</form>
 
 <!-- Optional JavaScript; choose one of the two! -->
 

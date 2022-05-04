@@ -7,6 +7,9 @@
 {% block blocobody %}
 
 {% if lista_carrinho %}
+<p>
+
+</p>
 <ul class="common-list">
     {% for produto in lista_carrinho %}
     <li class="common-list-item">
@@ -15,7 +18,8 @@
         </a>
         <h4>{{ produto.produto_nome }}</h4>
         <h5>{{ produto.preco_data }}</h5>
-        <button type="remove_carrinho">Remover do Carrinho</button>
+        <a href="{% url 'loja:remover_carrinho' produto.id %}" class="btn "> Remover
+        </a>
     </li>
 
     {% endfor %}

@@ -9,8 +9,22 @@ Categoria
 
     <div id="content" class="p-4 p-md-5 pt-5">
         <p>Category: {{ categoria.categoria_nome }}</p>
-        {% if lista_produto %}
         <div class="row justify-content-center" style="margin-left:0px;margin-right:0px;">
+            {% if request.user.is_superuser %}
+            <div class="card" style="width: 18rem;">
+                <img src="/static/media/computer.png" class="card-img-top" alt="...">
+                <div class="card-body">
+                    <h5 class="card-title">Produto Nome</h5>
+                </div>
+                <ul class="list-group list-group-flush">
+                    <li class="list-group-item">Preço: Produto Preço</li>
+                </ul>
+                <div class="card-body">
+                    <a href="{% url 'loja:criar_produto' categoria.id %}">Criar Produto</a>
+                </div>
+            </div>
+            {% endif %}
+            {% if lista_produto %}
             {% for produto in lista_produto %}
 
             <div class="card" style="width: 18rem;">
@@ -22,34 +36,47 @@ Categoria
                     <li class="list-group-item">Preço: {{ produto.preco_data }}</li>
                 </ul>
                 <div class="card-body">
-                    <a href="{% url 'loja:carrinho' %}" class="btn ">
+                    <a href="{% url 'loja:adicionar_carrinho' produto.id %}" class="btn ">
                         <img width="35" height="35" src="{{'/static/media/shoppingcart.png'}}">
                     </a>
-                    <a href="" class="btn btn-primary">Ver Produto</a>
+                    <button type="button" class="btn btn-primary" data-bs-toggle="modal"
+                            data-bs-target="#staticBackdrop">
+                        Ver Produto
+                    </button>
+                    <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false"
+                         tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="staticBackdropLabel">Modal title</h5>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                            aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body">
+                                    ...
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close
+                                    </button>
+                                    <button type="button" class="btn btn-primary">Understood</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                     {% if request.user.is_superuser %}
-                    <a href="{% url 'loja:apagar_produto' produto.id %}" >Apagar Produto</a>
+                    <a href="{% url 'loja:apagar_produto' produto.id %}">Apagar Produto</a>
+                    <a href="#">Editar Produto</a>
                     {% endif %}
                 </div>
             </div>
             {% endfor %}
-            {% if request.user.is_superuser %}
-                <div class="card" style="width: 18rem;">
-                <img src="/static/media/computer.png" class="card-img-top" alt="...">
-                <div class="card-body">
-                    <h5 class="card-title">Produto Nome</h5>
-                </div>
-                <ul class="list-group list-group-flush">
-                    <li class="list-group-item">Preço: Produto Preço</li>
-                </ul>
-                <div class="card-body">
-                    <a href="CriarProduto" >Criar Produto</a>
-                </div>
-            </div>
+            {% else %}
+            {% if not request.user.is_superuser %}
+            <p>Não há produtos disponíveis.</p>
+            {% endif %}
             {% endif %}
         </div>
-        {% else %}
-        <p>Não há produtos disponíveis.</p>
-        {% endif %}
+
     </div>
     <nav id="sidebar">
         <div class="p-4 pt-5">
@@ -63,7 +90,7 @@ Categoria
                 {% endfor %}
                 {% if request.user.is_superuser %}
                 <li>
-                    <a href="CriarCategoria">Criar nova categoria</a>
+                    <a href="{% url 'loja:criar_categoria'%}">Criar nova categoria</a>
                 </li>
                 {% endif %}
             </ul>
@@ -73,7 +100,6 @@ Categoria
         </div>
     </nav>
 </div>
-
 
 
 {% endblock %}

@@ -36,11 +36,17 @@ urlpatterns = [
     path('nova_categoria', views.nova_categoria, name='nova_categoria'),
 
     # ex: loja/novo_produto
-    path('novo_produto', views.novo_produto, name='novo_produto'),
+    path('novo_produto/<int:categoria_id>', views.novo_produto, name='novo_produto'),
 
     # ex: loja/apagar_categoria
     path('apagar_categoria/<int:categoria_id>', views.apagar_categoria, name='apagar_categoria'),
     # ex: loja/apagar_produto
     path('apagar_produto/<int:produto_id>', views.apagar_produto, name='apagar_produto'),
+
+    # ex: loja/criar_categoria
+    path('criar_categoria', views.criar_categoria, name='criar_categoria'),
+    # ex: loja/criar_produto
+    path('criar_produto/<int:categoria_id>', views.criar_produto, name='criar_produto'),
+
 
 ]

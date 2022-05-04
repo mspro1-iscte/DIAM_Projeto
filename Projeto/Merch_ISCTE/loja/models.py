@@ -24,6 +24,9 @@ class Produto(models.Model):
     def get_preco(self):
         return self.preco_data
 
+    def serialize(self):
+        return self.__dict__
+
 
 class Cliente(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)

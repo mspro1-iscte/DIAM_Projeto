@@ -4,6 +4,8 @@ from django.shortcuts import get_object_or_404, render
 from django.http import HttpResponse, HttpResponseRedirect
 from django.urls import reverse
 from django.core.files.storage import FileSystemStorage
+from django.core import serializers
+import json
 from django.contrib.auth.decorators import login_required, permission_required, user_passes_test
 
 from .models import Cliente, Produto, Categoria
@@ -22,6 +24,7 @@ def loginview(request):
     user = authenticate(username=username, password=password)
     if user is not None:
         login(request, user)
+        request.session['lista_carrinho'] = []
         return HttpResponseRedirect(reverse('loja:index'))
     else:
         return HttpResponseRedirect(reverse('loja:index'))
@@ -53,7 +56,13 @@ def detalhe_categoria(request, categoria_id):
 
 
 def carrinho(request):
-    return render(request, 'loja/carrinho.html')
+    lista_ids = request.session['lista_carrinho']
+    lista_carrinho = []
+    for id in lista_ids:
+        produto = get_object_or_404(Produto, pk=id)
+        lista_carrinho.append(produto)
+    context = {'lista_carrinho': lista_carrinho}
+    return render(request, 'loja/carrinho.html', context)
 
 
 def nova_categoria(request):
@@ -70,18 +79,17 @@ def nova_categoria(request):
     return HttpResponseRedirect(reverse('loja:index'))
 
 
-def novo_produto(request):
+def novo_produto(request, categoria_id):
     produto_nome = request.POST['produto_nome']
     produto_texto = request.POST['produto_texto']
     preco_data = request.POST['preco_data']
-    categoria_select = request.POST['categoria_select']
-    cat = get_object_or_404(Categoria, pk=categoria_select)
-
+    cat = get_object_or_404(Categoria, pk=categoria_id)
     if bool(request.FILES.get('produto_file', False)):
         myfile = request.FILES['produto_file']
         fs = FileSystemStorage()
         filename = fs.save(myfile.name, myfile)
         uploaded_file_url = fs.url(filename)[5:]  # remover /loja
+        print(uploaded_file_url)
         produto = Produto(produto_nome=produto_nome, produto_texto=produto_texto, preco_data=preco_data,
                           categoria=cat, foto=uploaded_file_url)
 
@@ -94,26 +102,24 @@ def novo_produto(request):
 
 
 def adicionar_carrinho(request, produto_id):
-    produto = get_object_or_404(Produto, pk=produto_id)
 
-    if 'lista_carrinho' not in request.session:
-        request.session['lista_carrinho'] = [produto]
+    if not 'lista_carrinho' in request.session or not request.session['lista_carrinho']:
+        request.session['lista_carrinho'] = [produto_id]
 
     else:
         lista_carrinho = request.session['lista_carrinho']
-        lista_carrinho.append(produto)
+        lista_carrinho.append(produto_id)
         request.session['lista_carrinho'] = lista_carrinho
-        print(lista_carrinho)
-    return render(request, 'loja/detalhe_produto.html', {'produto': produto})
+    print(request.session['lista_carrinho'])
+    return HttpResponseRedirect(reverse('loja:index'))
+    #return render(request, 'loja/detalhe_produto.html', {'produto': produto})
 
 
 def remover_carrinho(request, produto_id):
-    produto = get_object_or_404(Produto, pk=produto_id)
-
-    if request.method == 'POST':
-        remove_carrinho = request.POST['remove_carrinho']
-        request.session['lista_carrinho'] -= [remove_carrinho]
-    return render(request, 'loja/carrinho.html', {'produto': produto})
+    lista_carrinho = request.session['lista_carrinho']
+    lista_carrinho.remove(produto_id)
+    request.session['lista_carrinho'] = lista_carrinho
+    return HttpResponseRedirect(reverse('loja:carrinho'))
 
 
 def registo(request):
@@ -151,3 +157,13 @@ def apagar_produto(request, produto_id):
     record = Produto.objects.get(id=produto_id)
     record.delete()
     return HttpResponseRedirect(reverse('loja:index'))
+
+
+def criar_categoria(request):
+    return render(request, 'loja/criar_categoria.html')
+
+
+def criar_produto(request, categoria_id):
+    categoria = get_object_or_404(Categoria, pk=categoria_id)
+    context = {'categoria': categoria}
+    return render(request, 'loja/criar_produto.html', context)

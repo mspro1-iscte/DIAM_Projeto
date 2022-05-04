@@ -1,0 +1,24 @@
+{% extends "loja/index.html" %}
+
+{% block title %}
+Criar Produto
+{% endblock %}
+
+{% block blocobody %}
+<form action="{% url 'loja:novo_produto' categoria.id %}" method="post">
+    {% csrf_token %}
+    <div class="form-group">
+        <label>Nome</label>
+        <input class="form-control" id="produto_nome" name="produto_nome" required="required" type="text">
+        <label>Descrição</label>
+        <input class="form-control" id="produto_texto" name="produto_texto" type="text">
+        <label>Preço</label>
+        <input class="form-control" id="preco_data" name="preco_data" required="required" type="number"
+               min="0.01" step="0.01">
+        <br>
+        <label>Imagem</label>
+        <input class="form-control" id="produto_file" name="produto_file" type="file">
+    </div>
+    <input class="btn btn-primary btn-block" type="submit" value="Criar">
+</form>
+{% endblock %}

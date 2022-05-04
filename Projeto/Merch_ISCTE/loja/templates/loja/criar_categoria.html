@@ -1,0 +1,19 @@
+{% extends "loja/index.html" %}
+
+{% block title %}
+Criar Categoria
+{% endblock %}
+
+{% block blocobody %}
+<form action="{% url 'loja:nova_categoria' %}" enctype="multipart/form-data" method="post">
+    {% csrf_token %}
+    <div class="form-group">
+        <label>Categoria</label>
+        <input class="form-control" id="categoria_nome" name="categoria_nome" required="required"
+               type="text">
+        <label>Imagem</label>
+        <input class="form-control" id="categoria_file" name="categoria_file" type="file">
+    </div>
+    <input class="btn btn-primary btn-block" type="submit" value="Criar">
+</form>
+{% endblock %}
