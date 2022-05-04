@@ -5,41 +5,76 @@ Categoria
 {% endblock %}
 
 {% block blocobody %}
+<p>AQUI</p>
+<div class="container-fluid d-md-flex align-items-stretch">
 
+    <div id="content" class="p-4 p-md-5 pt-5">
+        <p>{{ categoria.categoria_nome }}</p>
+        {% if lista_produto %}
+        <div class="row justify-content-center" style="margin-left:0px;margin-right:0px;">
+            {% for produto in lista_produto %}
 
-{% if error_lista_produto %}
-<p><strong>{{ error_message }}</strong></p>
-{% endif %}
+            <div class="card" style="width: 18rem;">
+                <img src="{{ produto.foto }}" class="card-img-top" alt="...">
+                <div class="card-body">
+                    <h5 class="card-title">{{ produto.produto_nome }}</h5>
+                </div>
+                <ul class="list-group list-group-flush">
+                    <li class="list-group-item">Preço: {{ produto.preco_data }}</li>
+                </ul>
+                <div class="card-body">
+                    <a href="{% url 'loja:carrinho' %}" class="btn ">
+                        <img width="35" height="35" src="{{'/static/media/shoppingcart.png'}}">
+                    </a>
+                    <a href="" class="btn btn-primary">Ver Produto</a>
+                    {% if request.user.is_superuser %}
+                    <a href="{% url 'loja:apagar_produto' produto.id %}" >Apagar Produto</a>
+                    {% endif %}
+                </div>
+            </div>
+            {% endfor %}
+            {% if request.user.is_superuser %}
+                <div class="card" style="width: 18rem;">
+                <img src="/static/media/computer.png" class="card-img-top" alt="...">
+                <div class="card-body">
+                    <h5 class="card-title">Produto Nome</h5>
+                </div>
+                <ul class="list-group list-group-flush">
+                    <li class="list-group-item">Preço: Produto Preço</li>
+                </ul>
+                <div class="card-body">
+                    <a href="CriarProduto" >Criar Produto</a>
+                </div>
+            </div>
+            {% endif %}
+        </div>
+        {% else %}
+        <p>Não há produtos disponíveis.</p>
+        {% endif %}
+    </div>
+    <nav id="sidebar">
+        <div class="p-4 pt-5">
+            <h5>Categories</h5>
+            {% if lista_categoria %}
+            <ul class="list-unstyled components mb-5">
+                {% for categoria in lista_categoria %}
+                <li>
+                    <a href="{% url 'loja:detalhe_categoria' categoria.id %}">{{ categoria.categoria_nome }}</a>
+                </li>
+                {% endfor %}
+                {% if request.user.is_superuser %}
+                <li>
+                    <a href="CriarCategoria">Criar nova categoria</a>
+                </li>
+                {% endif %}
+            </ul>
+            {% else %}
+            <p>Não há categorias disponíveis.</p>
+            {% endif %}
+        </div>
+    </nav>
+</div>
 
-{% if lista_produtos %}
-<ul class="common-list">
-    {% for produto in lista_produtos %}
-    <li class="common-list-item">
-        <a href="{% url 'loja:detalhe_produto' produto.id %}">
-            <img height="250" src="{{ produto.foto }}" width="250">
-        </a>
-        <h4>{{ produto.produto_nome }}</h4>
-        <h5>{{ produto.produto_texto }}</h5>
-        <h5>{{ produto.preco_data }}</h5>
-        <form action="{% url 'loja:adicionar_carrinho' produto.id %}" enctype="multipart/form-data" method="post">
-            {% csrf_token %}
-            <input class="btn btn-primary btn-block" id="add_carrinho" name="add_carrinho" type="submit"
-                   value="Adicionar ao Carrinho">
-        </form>
-    </li>
-
-    {% endfor %}
-</ul>
-{% else %}
-<p>Não há produtos disponíveis.</p>
-
-<p>Pode Apagar a Categoria:</p>
-
-{% if request.user.is_superuser %}
-<a href="{% url 'loja:apagar_categoria' categoria.id %}">Apagar Categoria</a>
-{% endif %}
-
-{% endif %}
 
 
 {% endblock %}

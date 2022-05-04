@@ -11,15 +11,9 @@ from .models import Cliente, Produto, Categoria
 
 def index(request):
     lista_categoria = Categoria.objects.all()
-    context = {'lista_categoria': lista_categoria}
-    return render(request, 'loja/index.html', context)
-
-
-def teste(request):
-    lista_categoria = Categoria.objects.all()
     lista_produto = Produto.objects.all()
     context = {'lista_categoria': lista_categoria, 'lista_produto': lista_produto}
-    return render(request, 'loja/teste.html', context)
+    return render(request, 'loja/index.html', context)
 
 
 def loginview(request):
@@ -49,11 +43,12 @@ def detalhe_produto(request, produto_id):
 
 def detalhe_categoria(request, categoria_id):
     categoria = get_object_or_404(Categoria, pk=categoria_id)
-    lista_produtos = []
+    lista_categoria = Categoria.objects.all()
+    lista_produto = []
     for p in Produto.objects.all():
         if p.categoria_id == categoria_id:
-            lista_produtos.append(p)
-    context = {'lista_produtos': lista_produtos, 'categoria': categoria}
+            lista_produto.append(p)
+    context = {'lista_produto': lista_produto, 'categoria': categoria,'lista_categoria': lista_categoria}
     return render(request, 'loja/detalhe_categoria.html', context)
 
 
