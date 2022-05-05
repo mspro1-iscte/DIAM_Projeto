@@ -8,17 +8,17 @@
 
 <h1>Novo Utilizador:</h1>
 {% load static %}
-<form action="registo" enctype="multipart/form-data" method="post">
+<!-- <form action="registo" enctype="multipart/form-data" method="post">
     {% csrf_token %}
         <label>Username:</label>
         <input type="text" name="username" id="username" value="" /> <br>
         <label>Password:</label>
         <input type="password" name="pass" id="pass" value="" /><br>
         <label>E-mail:</label>
-        <!--
+        
         add first name
         add last name
-        -->
+        
         <input type="text" name="email" id="email" value="" /><br>
         <label>Curso:</label>
         <input type="text" name="curso" id="curso" value="" /><br>
@@ -26,7 +26,30 @@
         <input name="myfile" type="file"> <br>
         <br>
         <input type="Submit" value="Registar" /><br>
-</form>
+</form> -->
+
+<div class="container-md m-5 w-50 position-absolute top-50 start-50 translate-middle">
+    <form>
+        {% csrf_token %}
+        <div class="mb-3">
+          <label for="username" class="form-label">Username</label>
+          <input type="text" class="form-control" id="username">
+        </div>
+        <div class="mb-3">
+          <label for="pass" class="form-label">Password</label>
+          <input type="password" class="pass" id="pass">
+        </div>
+        <div class="mb-3">
+            <label for="curso" class="form-label">Curso</label>
+            <input type="text" class="curso" id="curso">
+          </div>
+          <div class="mb-3">
+            <label for="myfile" class="form-label">Inserir foto</label>
+            <input class="form-control" type="file" id="myfile">
+          </div>
+        <button type="submit" class="btn btn-primary">Submit</button>
+      </form>
+</div>
 
 
 {% endblock %}
