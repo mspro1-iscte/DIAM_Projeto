@@ -1,32 +1,32 @@
-{% extends "loja/index.html" %}
-
-{% block title %}
-    Carrinho
-{% endblock %}
-
-{% block blocobody %}
-
+{% extends "loja/index.html" %} 
+{% block title %} 
+Carrinho 
+{% endblock %} 
+{% block blocobody %} 
 {% if lista_carrinho %}
-<p>
+{% for produto in lista_carrinho %}
+<div class="container">
+    <ul class="list-group">
+        <li class="list-group-item">
+            <div class="row">
+                <div class="col"><img src="{{ produto.foto }}" class="rounded float-start" width="100" alt="" /></div>
+                <div class="col">
+                    <p>{{ produto.produto_nome }}</p>
+                </div>
+                <div class="col">
+                    <p>{{ produto.preco_data}}</p>
+                </div>
+                <div class="col">
+                    <a href="{% url 'loja:remover_carrinho' produto.id %}" class="btn btn-primary">
+                        Remover</a>
+                </div>
+            </div>
+        </li>
+    </ul>
 
-</p>
-<ul class="common-list">
-    {% for produto in lista_carrinho %}
-    <li class="common-list-item">
-        <a href="#">
-            <img width="100" height="100" src="{{ produto.foto }}">
-        </a>
-        <h4>{{ produto.produto_nome }}</h4>
-        <h5>{{ produto.preco_data }}</h5>
-        <a href="{% url 'loja:remover_carrinho' produto.id %}" class="btn "> Remover
-        </a>
-    </li>
-
-    {% endfor %}
-</ul>
+</div>
+{% endfor %} 
 {% else %}
 <p>Não há produtos no Carrinho.</p>
-{% endif %}
-
-
+{% endif %} 
 {% endblock %}
