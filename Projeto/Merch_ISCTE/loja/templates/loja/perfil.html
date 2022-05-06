@@ -8,21 +8,21 @@ Perfil
 
 {% load static %}
 {% if not request.user.is_superuser %}
-<img src= "{{ request.user.cliente.foto }}" width="100" height="100" >
 
-<p> Email: {{ request.user.cliente.user.email}} </p>
+<div class="col-md">
+    <div class="row d-flex justify-content-center m-5"><img src="{{ request.user.cliente.foto }}" class="rounded-circle " style="width: 15%;" ></div>
+    <div class="row d-flex justify-content-center ">Email: {{ request.user.cliente.user.email}} </div>
+    <div class="row d-flex justify-content-center ">Curso: {{ request.user.cliente.curso }}</div>
+    <div class="row d-flex justify-content-center ">Date Joined: {{ request.user.date_joined}}</div>
+    <div class="row d-flex justify-content-center ">Last Login: {{ request.user.last_login}}</div>
+</div>
 
-<p> Curso: {{ request.user.cliente.curso }}</p>
 
 {% else %}
-<img src= "{{'/static/media/avatardefault.png'}}" width="100" height="100" >
+<div class="col-md">
+    <img src= "{{'/static/media/avatardefault.png'}}" width="100" height="100" >
+</div>
 {% endif %}
-
-
-<p> Date Joined: {{ request.user.date_joined}} </p>
-
-<p> Last Login: {{ request.user.last_login}} </p>
-
 
 {% endblock %}
 
