@@ -6,7 +6,7 @@
 
 {% block blocobody %}
 
-<h1>Novo Utilizador:</h1>
+<div class="container-md mx-auto my-5"><h1 class="text-center">Criar Utilizador</h1></div>
 {% load static %}
 <!-- <form action="registo" enctype="multipart/form-data" method="post">
     {% csrf_token %}
@@ -28,20 +28,24 @@
         <input type="Submit" value="Registar" /><br>
 </form> -->
 
-<div class="container-md m-5 w-50 position-absolute top-50 start-50 translate-middle">
-    <form>
+<div class="container-md m-5 w-50 mx-auto">
+    <form action="registo" enctype="multipart/form-data" method="post">
         {% csrf_token %}
         <div class="mb-3">
           <label for="username" class="form-label">Username</label>
-          <input type="text" class="form-control" id="username">
+          <input type="text" class="form-control" id="username" name="username">
         </div>
         <div class="mb-3">
+            <label for="email" class="form-label">Email</label>
+            <input type="text" class="form-control" id="email" name="email">
+          </div>
+        <div class="mb-3">
           <label for="pass" class="form-label">Password</label>
-          <input type="password" class="pass" id="pass">
+          <input type="password" class="form-control" id="pass" name="pass">
         </div>
         <div class="mb-3">
             <label for="curso" class="form-label">Curso</label>
-            <input type="text" class="curso" id="curso">
+            <input type="text" class="form-control" id="curso" name="curso">
           </div>
           <div class="mb-3">
             <label for="myfile" class="form-label">Inserir foto</label>
