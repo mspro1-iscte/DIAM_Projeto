@@ -79,7 +79,7 @@ def update_user(request):
         fs = FileSystemStorage()
         filename = fs.save(myfile.name, myfile)
         uploaded_file_url = fs.url(filename)[5:]  # remover /loja
-        request.user.cliente.foto=uploaded_file_url
+        request.user.cliente.foto = uploaded_file_url
     request.user.cliente.save()
 
     return HttpResponseRedirect(reverse('loja:perfil'))
@@ -96,7 +96,7 @@ def criar_produto(request, categoria_id):
 def editar_produto(request, produto_id):
     produto = get_object_or_404(Produto, pk=produto_id)
     lista_categoria = Categoria.objects.all()
-    context = {'produto': produto, 'lista_categoria':lista_categoria, 'categoria': produto.categoria}
+    context = {'produto': produto, 'lista_categoria': lista_categoria, 'categoria': produto.categoria}
     return render(request, 'loja/editar_produto.html', context)
 
 
@@ -109,6 +109,7 @@ def apagar_produto(request, produto_id):
 def detalhe_produto(request, produto_id):
     produto = get_object_or_404(Produto, pk=produto_id)
     return render(request, 'loja/detalhe_produto.html', {'produto': produto})
+
 
 def update_produto(request, produto_id):
     categoria_id = request.POST['categoria_select']
@@ -123,7 +124,7 @@ def update_produto(request, produto_id):
         fs = FileSystemStorage()
         filename = fs.save(myfile.name, myfile)
         uploaded_file_url = fs.url(filename)[5:]  # remover /loja
-        produto.foto=uploaded_file_url
+        produto.foto = uploaded_file_url
     produto.save()
 
     return HttpResponseRedirect(reverse('loja:index'))
@@ -211,4 +212,3 @@ def remover_carrinho(request, produto_id):
     lista_carrinho.remove(produto_id)
     request.session['lista_carrinho'] = lista_carrinho
     return HttpResponseRedirect(reverse('loja:carrinho'))
-
