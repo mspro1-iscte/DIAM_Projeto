@@ -15,6 +15,10 @@ Perfil
     <div class="row d-flex justify-content-center ">Curso: {{ request.user.cliente.curso }}</div>
     <div class="row d-flex justify-content-center ">Date Joined: {{ request.user.date_joined}}</div>
     <div class="row d-flex justify-content-center ">Last Login: {{ request.user.last_login}}</div>
+    <br>
+    <div class="d-flex justify-content-center ">
+        <a href="{% url 'loja:editar_user' %}" class="btn ">Editar Utilizador</a>>
+    </div>
 </div>
 
 

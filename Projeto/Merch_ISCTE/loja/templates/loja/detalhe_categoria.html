@@ -65,7 +65,7 @@ Categoria
                     </div>
                     {% if request.user.is_superuser %}
                     <a href="{% url 'loja:apagar_produto' produto.id %}">Apagar Produto</a>
-                    <a href="#">Editar Produto</a>
+                    <a href="{% url 'loja:editar_produto' produto.id %}">Editar Produto</a>
                     {% endif %}
                 </div>
             </div>
@@ -83,6 +83,9 @@ Categoria
             <h5>Categories</h5>
             {% if lista_categoria %}
             <ul class="list-unstyled components mb-5">
+                <li>
+                    <a href="{% url 'loja:index' %}">All products</a>
+                </li>
                 {% for categoria in lista_categoria %}
                 <li>
                     <a href="{% url 'loja:detalhe_categoria' categoria.id %}">{{ categoria.categoria_nome }}</a>

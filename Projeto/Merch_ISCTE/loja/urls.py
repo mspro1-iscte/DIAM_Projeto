@@ -19,6 +19,10 @@ urlpatterns = [
 
     # ex: loja/perfil
     path('perfil', views.perfil, name='perfil'),
+    # ex: loja/editar_user
+    path('editar_user', views.editar_user, name='editar_user'),
+    # ex: loja/update_user
+    path('update_user', views.update_user, name='update_user'),
 
     # ex: loja/adicionar_carrinho
     path('adicionar_carrinho/<int:produto_id>', views.adicionar_carrinho, name='adicionar_carrinho'),
@@ -40,6 +44,10 @@ urlpatterns = [
 
     # ex: loja/apagar_categoria
     path('apagar_categoria/<int:categoria_id>', views.apagar_categoria, name='apagar_categoria'),
+    # ex: loja/editar_produto
+    path('editar_produto/<int:produto_id>', views.editar_produto, name='editar_produto'),
+    # ex: loja/update_produto
+    path('update_produto/<int:produto_id>', views.update_produto, name='update_produto'),
     # ex: loja/apagar_produto
     path('apagar_produto/<int:produto_id>', views.apagar_produto, name='apagar_produto'),
 

@@ -66,12 +66,38 @@ def perfil(request):
     return render(request, 'loja/perfil.html', {'cliente': cliente})
 
 
+def editar_user(request):
+    return render(request, 'loja/editar_user.html')
+
+
+def update_user(request):
+    request.user.cliente.user.username = request.POST['username']
+    request.user.cliente.user.email = request.POST['email']
+    request.user.cliente.curso = request.POST['curso']
+    if bool(request.FILES.get('myfile', False)):
+        myfile = request.FILES['myfile']
+        fs = FileSystemStorage()
+        filename = fs.save(myfile.name, myfile)
+        uploaded_file_url = fs.url(filename)[5:]  # remover /loja
+        request.user.cliente.foto=uploaded_file_url
+    request.user.cliente.save()
+
+    return HttpResponseRedirect(reverse('loja:perfil'))
+
+
 # --------------------- Produto ---------------------
 
 def criar_produto(request, categoria_id):
     categoria = get_object_or_404(Categoria, pk=categoria_id)
     context = {'categoria': categoria}
     return render(request, 'loja/criar_produto.html', context)
+
+
+def editar_produto(request, produto_id):
+    produto = get_object_or_404(Produto, pk=produto_id)
+    lista_categoria = Categoria.objects.all()
+    context = {'produto': produto, 'lista_categoria':lista_categoria, 'categoria': produto.categoria}
+    return render(request, 'loja/editar_produto.html', context)
 
 
 def apagar_produto(request, produto_id):
@@ -83,6 +109,24 @@ def apagar_produto(request, produto_id):
 def detalhe_produto(request, produto_id):
     produto = get_object_or_404(Produto, pk=produto_id)
     return render(request, 'loja/detalhe_produto.html', {'produto': produto})
+
+def update_produto(request, produto_id):
+    categoria_id = request.POST['categoria_select']
+    produto = get_object_or_404(Produto, pk=produto_id)
+    cat = get_object_or_404(Categoria, pk=categoria_id)
+    produto.produto_nome = request.POST['produto_nome']
+    produto.produto_texto = request.POST['produto_texto']
+    produto.preco_data = request.POST['preco_data']
+    produto.categoria = cat
+    if bool(request.FILES.get('produto_file', False)):
+        myfile = request.FILES['produto_file']
+        fs = FileSystemStorage()
+        filename = fs.save(myfile.name, myfile)
+        uploaded_file_url = fs.url(filename)[5:]  # remover /loja
+        produto.foto=uploaded_file_url
+    produto.save()
+
+    return HttpResponseRedirect(reverse('loja:index'))
 
 
 def novo_produto(request, categoria_id):
@@ -132,14 +176,7 @@ def detalhe_categoria(request, categoria_id):
 
 def nova_categoria(request):
     categoria_nome = request.POST['categoria_nome']
-    if bool(request.FILES.get('categoria_file', False)):
-        myfile = request.FILES['categoria_file']
-        fs = FileSystemStorage()
-        filename = fs.save(myfile.name, myfile)
-        uploaded_file_url = fs.url(filename)[5:]  # remover /loja
-        categoria = Categoria(categoria_nome=categoria_nome, foto=uploaded_file_url)
-    else:
-        categoria = Categoria(categoria_nome=categoria_nome)
+    categoria = Categoria(categoria_nome=categoria_nome)
     categoria.save()
     return HttpResponseRedirect(reverse('loja:index'))
 
