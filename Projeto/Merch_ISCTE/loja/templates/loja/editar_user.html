@@ -4,6 +4,9 @@
     Edit User
 {% endblock %}
 
+{% block search %}
+{% endblock %}
+
 {% block blocobody %}
 
 <div class="container-md mx-auto my-5"><h1 class="text-center">Edit User</h1></div>
@@ -25,7 +28,7 @@
           <input type="password" class="form-control" id="pass" name="pass">
         </div>
         <div class="mb-3">
-            <label for="curso" class="form-label">Curse</label>
+            <label for="curso" class="form-label">Course</label>
             <input type="text" class="form-control" id="curso" name="curso" value="{{ request.user.cliente.curso }}">
           </div>
           <div class="mb-3">

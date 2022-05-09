@@ -1,13 +1,16 @@
 {% extends "loja/index.html" %}
 
 {% block title %}
-Categorie
+Category
 {% endblock %}
+
 
 {% block blocobody %}
 <div class="container-fluid d-md-flex align-items-stretch">
-
     <div id="content" class="p-4 p-md-5 pt-5">
+        {% if delete_category_error %}
+        <div> <strong> {{ delete_category_error }} </strong> </div> <br>
+        {% endif %}
         <p>Category: {{ categoria.categoria_nome }}</p>
         <div class="row justify-content-center" style="margin-left:0px;margin-right:0px;">
             {% if request.user.is_superuser %}
@@ -76,6 +79,9 @@ Categorie
             {% endif %}
             {% endif %}
         </div>
+        {% if request.user.is_superuser %}
+        <a href="{% url 'loja:apagar_categoria' categoria.id %}">Delete category</a>
+        {% endif %}
 
     </div>
     <nav id="sidebar">
@@ -93,7 +99,7 @@ Categorie
                 {% endfor %}
                 {% if request.user.is_superuser %}
                 <li>
-                    <a href="{% url 'loja:criar_categoria'%}">Create new categorie</a>
+                    <a href="{% url 'loja:criar_categoria'%}">Create new category</a>
                 </li>
                 {% endif %}
             </ul>
@@ -101,7 +107,7 @@ Categorie
             <p>There are no categories</p>
             {% if request.user.is_superuser %}
                 <li>
-                    <a href="criar_categoria">Create new categorie</a>
+                    <a href="criar_categoria">Create new category</a>
                 </li>
             {% endif %}
             {% endif %}

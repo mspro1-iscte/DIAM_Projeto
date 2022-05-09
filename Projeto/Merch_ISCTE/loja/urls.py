@@ -3,8 +3,12 @@ from . import views
 
 app_name = 'loja'
 urlpatterns = [
+
     # ex: loja/
-    path("", views.index, name="index"),
+    path("", views.home, name="home"),
+
+    # ex: loja/index
+    path("index", views.index, name="index"),
 
     # ex: loja/registaruser
     path('registaruser', views.registaruser, name='registaruser'),
@@ -30,6 +34,8 @@ urlpatterns = [
     path('remover_carrinho/<int:produto_id>', views.remover_carrinho, name='remover_carrinho'),
     # ex: loja/carrinho
     path('carrinho', views.carrinho, name='carrinho'),
+    # ex: loja/comprar
+    path('comprar', views.comprar, name='comprar'),
 
     # ex: loja/detalhe_produto
     path('detalhe_produto/<int:produto_id>', views.detalhe_produto, name='detalhe_produto'),

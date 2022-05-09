@@ -4,12 +4,17 @@
 Lista
 {% endblock %}
 
+{% block search %}
+{% endblock %}
+
 {% block blocobody %}
 
 
 {% if error_message %}
 <p><strong>{{ error_message }}</strong></p>
 {% endif %}
+
+
 
 <form action="{% url 'loja:adicionar_carrinho' produto.id %}" enctype="multipart/form-data" method="post">
     {% csrf_token %}
