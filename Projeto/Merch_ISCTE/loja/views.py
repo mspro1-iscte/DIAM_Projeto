@@ -182,6 +182,22 @@ def nova_categoria(request):
     return HttpResponseRedirect(reverse('loja:index'))
 
 
+def procurar_produto(request):
+    produto_nome = request.POST['produto_procura']
+    lista_categoria = Categoria.objects.all()
+    if produto_nome:
+        lista = []
+        for p in Produto.objects.all():
+            if produto_nome in p.produto_nome:
+                lista.append(p)
+        context = {'lista_produto': lista, 'lista_categoria':lista_categoria}
+        return render(request, 'loja/procurar_produto.html', context)
+    else:
+
+        return HttpResponseRedirect(reverse('loja:index'))
+
+
+
 # --------------------- Carrinho ---------------------
 
 def carrinho(request):
@@ -200,11 +216,10 @@ def adicionar_carrinho(request, produto_id):
 
     else:
         lista_carrinho = request.session['lista_carrinho']
-        lista_carrinho.append(produto_id)
+        if not produto_id in lista_carrinho:
+            lista_carrinho.append(produto_id)
         request.session['lista_carrinho'] = lista_carrinho
-    print(request.session['lista_carrinho'])
-    return HttpResponseRedirect(reverse('loja:index'))
-    # return render(request, 'loja/detalhe_produto.html', {'produto': produto})
+    return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
 
 
 def remover_carrinho(request, produto_id):

@@ -1,0 +1,101 @@
+{% extends "loja/index.html" %}
+
+{% block title %}
+Search
+{% endblock %}
+
+{% block blocobody %}
+<div class="container-fluid d-md-flex align-items-stretch">
+
+    <div id="content" class="p-4 p-md-5 pt-5">
+        <p>Search Results:</p>
+        <div class="row justify-content-center" style="margin-left:0px;margin-right:0px;">
+            {% if lista_produto %}
+            {% for produto in lista_produto %}
+
+            <div class="card" style="width: 18rem;">
+                <img src="{{ produto.foto }}" class="card-img-top" alt="...">
+                <div class="card-body">
+                    <h5 class="card-title">{{ produto.produto_nome }}</h5>
+                </div>
+                <ul class="list-group list-group-flush">
+                    <li class="list-group-item">Price: {{ produto.preco_data }}</li>
+                </ul>
+                <div class="card-body">
+                    <a href="{% url 'loja:adicionar_carrinho' produto.id %}" class="btn ">
+                        <img width="35" height="35" src="{{'/static/media/shoppingcart.png'}}">
+                    </a>
+                    <button type="button" class="btn btn-primary" data-bs-toggle="modal"
+                            data-bs-target="#staticBackdrop">
+                        Product Details
+                    </button>
+                    <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false"
+                         tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="staticBackdropLabel">Modal title</h5>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                            aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body">
+                                    ...
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close
+                                    </button>
+                                    <button type="button" class="btn btn-primary">Understood</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    {% if request.user.is_superuser %}
+                    <a href="{% url 'loja:apagar_produto' produto.id %}">Delete Product</a>
+                    <a href="{% url 'loja:editar_produto' produto.id %}">Edit Product</a>
+                    {% endif %}
+                </div>
+            </div>
+            {% endfor %}
+            {% else %}
+            {% if not request.user.is_superuser %}
+            <p>No products found.</p>
+            {% endif %}
+            {% endif %}
+        </div>
+
+    </div>
+    <nav id="sidebar">
+        <div class="p-4 pt-5">
+            <h5>Categories</h5>
+            {% if lista_categoria %}
+            <ul class="list-unstyled components mb-5">
+                <li>
+                    <a href="{% url 'loja:index' %}">All products</a>
+                </li>
+                {% for categoria in lista_categoria %}
+                <li>
+                    <a href="{% url 'loja:detalhe_categoria' categoria.id %}">{{ categoria.categoria_nome }}</a>
+                </li>
+                {% endfor %}
+                {% if request.user.is_superuser %}
+                <li>
+                    <a href="{% url 'loja:criar_categoria'%}">Create new categorie</a>
+                </li>
+                {% endif %}
+            </ul>
+            {% else %}
+            <p>There are no categories</p>
+            {% if request.user.is_superuser %}
+                <li>
+                    <a href="criar_categoria">Create new categorie</a>
+                </li>
+            {% endif %}
+            {% endif %}
+        </div>
+    </nav>
+</div>
+
+
+{% endblock %}
+
+

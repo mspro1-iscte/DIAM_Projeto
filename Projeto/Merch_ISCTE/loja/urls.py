@@ -39,6 +39,9 @@ urlpatterns = [
     # ex: loja/nova_categoria
     path('nova_categoria', views.nova_categoria, name='nova_categoria'),
 
+    # ex: loja/procurar_produto
+    path('procurar_produto', views.procurar_produto, name='procurar_produto'),
+
     # ex: loja/novo_produto
     path('novo_produto/<int:categoria_id>', views.novo_produto, name='novo_produto'),
 
