@@ -5,18 +5,19 @@ Shopping Cart
 {% block blocobody %} 
 {% if lista_carrinho %}
 {% for produto in lista_carrinho %}
-<div class="container">
+<div class="container-md mx-auto my-5"><h1 class="text-center">Carrinho</h1></div>
+<div class="container-md mx-auto">
     <ul class="list-group">
-        <li class="list-group-item">
-            <div class="row">
-                <div class="col"><img src="{{ produto.foto }}" class="rounded float-start" width="100" alt="" /></div>
-                <div class="col">
-                    <p>{{ produto.produto_nome }}</p>
+        <li class="list-group-item p-3">
+            <div class="row align-items-center">
+                <div class="col text-center"><img src="{{ produto.foto }}" class="rounded float-start" width="100" alt="" /></div>
+                <div class="col text-center">
+                    {{ produto.produto_nome }}
                 </div>
-                <div class="col">
-                    <p>{{ produto.preco_data}}$</p>
+                <div class="col text-center">
+                    {{ produto.preco_data}}$
                 </div>
-                <div class="col">
+                <div class="col text-end">
                     <a href="{% url 'loja:remover_carrinho' produto.id %}" class="btn btn-primary">
                         Remove</a>
                 </div>
