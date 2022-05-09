@@ -10,21 +10,28 @@ Lista
 {% block blocobody %}
 
 
-{% if error_message %}
-<p><strong>{{ error_message }}</strong></p>
-{% endif %}
+<div class="card mb-3" style="max-width: 1000px;">
+    <div class="row g-0">
+        <div class="col-md-4">
+            <img src="{{ produto.foto }}" class="img-fluid rounded-start">
+        </div>
+        <div class="col-md-8">
+            <div class="card-body">
+                <h5 class="card-title">{{ produto.produto_nome }}</h5>
+                <p class="card-text">Description: {{ produto.produto_texto }}</p>
+                <p class="card-text">Price: {{ produto.preco_data }}$</p>
+                <a href="{% url 'loja:adicionar_carrinho' produto.id %}" class="btn ">
+                    <img width="35" height="35" src="{{'/static/media/shoppingcart.png'}}">
+                </a>
+                {% if request.user.is_superuser %}
+                <a href="{% url 'loja:apagar_produto' produto.id %}">Delete Product</a>
+                <a href="{% url 'loja:editar_produto' produto.id %}">Edit Product</a>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
 
-
-
-<form action="{% url 'loja:adicionar_carrinho' produto.id %}" enctype="multipart/form-data" method="post">
-    {% csrf_token %}
-    <input class="btn btn-primary btn-block" id="add_carrinho" name="add_carrinho" type="submit"
-           value="Adicionar ao Carrinho">
-</form>
-
-{% if request.user.is_superuser %}
-<a href="{% url 'loja:apagar_produto' produto.id %}">Apagar Produto</a>
-{% endif %}
 
 {% endblock %}
 
