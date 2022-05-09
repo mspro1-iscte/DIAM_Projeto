@@ -79,7 +79,7 @@ Search
                 {% endfor %}
                 {% if request.user.is_superuser %}
                 <li>
-                    <a href="{% url 'loja:criar_categoria'%}">Create new categorie</a>
+                    <a href="{% url 'loja:criar_categoria'%}">Create new category</a>
                 </li>
                 {% endif %}
             </ul>
@@ -87,7 +87,7 @@ Search
             <p>There are no categories</p>
             {% if request.user.is_superuser %}
                 <li>
-                    <a href="criar_categoria">Create new categorie</a>
+                    <a href="criar_categoria">Create new category</a>
                 </li>
             {% endif %}
             {% endif %}
