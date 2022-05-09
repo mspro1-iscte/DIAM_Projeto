@@ -13,9 +13,6 @@ from .models import Cliente, Produto, Categoria
 
 # --------------------- Base / Login ---------------------
 
-def home(request):
-    return render(request, 'loja/home.html')
-
 def index(request):
     lista_categoria = Categoria.objects.all()
     lista_produto = Produto.objects.all()
@@ -163,16 +160,7 @@ def criar_categoria(request):
 
 def apagar_categoria(request, categoria_id):
     record = Categoria.objects.get(id=categoria_id)
-    lista_categoria = Categoria.objects.all()
-    lista_produto = []
-    for p in Produto.objects.all():
-        if p.categoria_id == categoria_id:
-            lista_produto.append(p)
-    context = {'lista_produto': lista_produto, 'categoria': record, 'lista_categoria': lista_categoria,
-               'delete_category_error':"Category cannot be removed once it features products, removes products or changes their category."}
-    for p in Produto.objects.all():
-        if p.categoria_id == categoria_id:
-            return render(request, 'loja/detalhe_categoria.html', context)
+
     record.delete()
     return HttpResponseRedirect(reverse('loja:index'))
 
@@ -206,6 +194,7 @@ def procurar_produto(request):
         context = {'lista_produto': lista, 'lista_categoria':lista_categoria}
         return render(request, 'loja/procurar_produto.html', context)
     else:
+
         return HttpResponseRedirect(reverse('loja:index'))
 
 
@@ -215,12 +204,10 @@ def procurar_produto(request):
 def carrinho(request):
     lista_ids = request.session['lista_carrinho']
     lista_carrinho = []
-    total = 0
     for id in lista_ids:
         produto = get_object_or_404(Produto, pk=id)
         lista_carrinho.append(produto)
-        total += produto.preco_data
-    context = {'lista_carrinho': lista_carrinho, 'total': total}
+    context = {'lista_carrinho': lista_carrinho}
     return render(request, 'loja/carrinho.html', context)
 
 
@@ -234,11 +221,6 @@ def adicionar_carrinho(request, produto_id):
             lista_carrinho.append(produto_id)
         request.session['lista_carrinho'] = lista_carrinho
     return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
-
-def comprar(request):
-    request.session['lista_carrinho'] = []
-    return HttpResponseRedirect(reverse('loja:index'))
-
 
 
 def remover_carrinho(request, produto_id):
