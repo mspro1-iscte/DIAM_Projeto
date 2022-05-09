@@ -1,6 +1,6 @@
 {% extends "loja/index.html" %} 
 {% block title %} 
-Carrinho 
+Shopping Cart
 {% endblock %} 
 {% block blocobody %} 
 {% if lista_carrinho %}
@@ -14,11 +14,11 @@ Carrinho
                     <p>{{ produto.produto_nome }}</p>
                 </div>
                 <div class="col">
-                    <p>{{ produto.preco_data}}</p>
+                    <p>{{ produto.preco_data}}$</p>
                 </div>
                 <div class="col">
                     <a href="{% url 'loja:remover_carrinho' produto.id %}" class="btn btn-primary">
-                        Remover</a>
+                        Remove</a>
                 </div>
             </div>
         </li>
@@ -27,6 +27,6 @@ Carrinho
 </div>
 {% endfor %} 
 {% else %}
-<p>Não há produtos no Carrinho.</p>
+<p>There are no products on shooping cart.</p>
 {% endif %} 
 {% endblock %}

@@ -1,7 +1,7 @@
 {% extends "loja/index.html" %}
 
 {% block title %}
-Categoria
+Categorie
 {% endblock %}
 
 {% block blocobody %}
@@ -14,13 +14,13 @@ Categoria
             <div class="card" style="width: 18rem;">
                 <img src="/static/media/computer.png" class="card-img-top" alt="...">
                 <div class="card-body">
-                    <h5 class="card-title">Produto Nome</h5>
+                    <h5 class="card-title">Product Name</h5>
                 </div>
                 <ul class="list-group list-group-flush">
-                    <li class="list-group-item">Preço: Produto Preço</li>
+                    <li class="list-group-item">Price: Product Price</li>
                 </ul>
                 <div class="card-body">
-                    <a href="{% url 'loja:criar_produto' categoria.id %}">Criar Produto</a>
+                    <a href="{% url 'loja:criar_produto' categoria.id %}">Create Product</a>
                 </div>
             </div>
             {% endif %}
@@ -33,7 +33,7 @@ Categoria
                     <h5 class="card-title">{{ produto.produto_nome }}</h5>
                 </div>
                 <ul class="list-group list-group-flush">
-                    <li class="list-group-item">Preço: {{ produto.preco_data }}</li>
+                    <li class="list-group-item">Price: {{ produto.preco_data }}</li>
                 </ul>
                 <div class="card-body">
                     <a href="{% url 'loja:adicionar_carrinho' produto.id %}" class="btn ">
@@ -41,7 +41,7 @@ Categoria
                     </a>
                     <button type="button" class="btn btn-primary" data-bs-toggle="modal"
                             data-bs-target="#staticBackdrop">
-                        Ver Produto
+                        Product Details
                     </button>
                     <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false"
                          tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
@@ -64,15 +64,15 @@ Categoria
                         </div>
                     </div>
                     {% if request.user.is_superuser %}
-                    <a href="{% url 'loja:apagar_produto' produto.id %}">Apagar Produto</a>
-                    <a href="{% url 'loja:editar_produto' produto.id %}">Editar Produto</a>
+                    <a href="{% url 'loja:apagar_produto' produto.id %}">Delete Product</a>
+                    <a href="{% url 'loja:editar_produto' produto.id %}">Edit Product</a>
                     {% endif %}
                 </div>
             </div>
             {% endfor %}
             {% else %}
             {% if not request.user.is_superuser %}
-            <p>Não há produtos disponíveis.</p>
+            <p>There are no products available.</p>
             {% endif %}
             {% endif %}
         </div>
@@ -93,12 +93,17 @@ Categoria
                 {% endfor %}
                 {% if request.user.is_superuser %}
                 <li>
-                    <a href="{% url 'loja:criar_categoria'%}">Criar nova categoria</a>
+                    <a href="{% url 'loja:criar_categoria'%}">Create new categorie</a>
                 </li>
                 {% endif %}
             </ul>
             {% else %}
-            <p>Não há categorias disponíveis.</p>
+            <p>There are no categories</p>
+            {% if request.user.is_superuser %}
+                <li>
+                    <a href="criar_categoria">Create new categorie</a>
+                </li>
+            {% endif %}
             {% endif %}
         </div>
     </nav>

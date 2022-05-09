@@ -1,16 +1,16 @@
 {% extends "loja/index.html" %}
 
 {% block title %}
-Criar Categoria
+Create Categorie
 {% endblock %}
 
 {% block blocobody %}
-<div class="container-md mx-auto my-5"><h1 class="text-center">Criar Categoria</h1></div>
+<div class="container-md mx-auto my-5"><h1 class="text-center">Create Categorie</h1></div>
 <div class="container-md m-5 w-50 mx-auto">
     <form action="{% url 'loja:nova_categoria' %}" enctype="multipart/form-data" method="post">
         {% csrf_token %}
         <div class="mb-3">
-          <label for="categoria_nome" class="form-label">Categoria</label>
+          <label for="categoria_nome" class="form-label">Categorie type</label>
           <input type="text" class="form-control" id="categoria_nome" name="categoria_nome">
         </div>
         <button type="submit" class="btn btn-primary">Submit</button>

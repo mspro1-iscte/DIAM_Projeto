@@ -29,7 +29,7 @@
                     <a class="nav-link active" aria-current="page" href="{% url 'loja:index' %}">Home</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link active" aria-current="page" href="{% url 'loja:index' %}">Produtos</a>
+                    <a class="nav-link active" aria-current="page" href="{% url 'loja:index' %}">Products</a>
                 </li>
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
@@ -74,7 +74,7 @@
                         </form>
                     </div>
                 </li>
-                <a class="btn btn-outline-success" href="{% url 'loja:registaruser' %}" type="submit">Registar</a>
+                <a class="btn btn-outline-success" href="{% url 'loja:registaruser' %}" type="submit">Register</a>
                 {% else %}
                 <li class="nav-item">
                     <a href="{% url 'loja:carrinho' %}" class="btn ">
@@ -82,7 +82,7 @@
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link active" aria-current="page" href="{% url 'loja:perfil' %}">Perfil</a>
+                    <a class="nav-link active" aria-current="page" href="{% url 'loja:perfil' %}">Profile</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link active" aria-current="page" href="{% url 'loja:logoutview' %}">Logout</a>
@@ -109,7 +109,7 @@
                     <h5 class="card-title">{{ produto.produto_nome }}</h5>
                 </div>
                 <ul class="list-group list-group-flush">
-                    <li class="list-group-item">Preço: {{ produto.preco_data }}</li>
+                    <li class="list-group-item">Price: {{ produto.preco_data }}</li>
                 </ul>
                 <div class="card-body">
                     <a href="{% url 'loja:adicionar_carrinho' produto.id %}" class="btn ">
@@ -117,7 +117,7 @@
                     </a>
                     <button type="button" class="btn btn-primary" data-bs-toggle="modal"
                             data-bs-target="#staticBackdrop">
-                        Ver Produto
+                        Product Details
                     </button>
                     <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false"
                          tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
@@ -140,15 +140,15 @@
                         </div>
                     </div>
                     {% if request.user.is_superuser %}
-                    <a href="{% url 'loja:apagar_produto' produto.id %}">Apagar Produto</a>
-                    <a href="{% url 'loja:editar_produto' produto.id %}">Editar Produto</a>
+                    <a href="{% url 'loja:apagar_produto' produto.id %}">Delete Product</a>
+                    <a href="{% url 'loja:editar_produto' produto.id %}">Edit Product</a>
                     {% endif %}
                 </div>
             </div>
             {% endfor %}
         </div>
         {% else %}
-        <p>Não há produtos disponíveis.</p>
+        <p>There are no products available.</p>
         {% endif %}
     </div>
     <nav id="sidebar">
@@ -166,12 +166,17 @@
                 {% endfor %}
                 {% if request.user.is_superuser %}
                 <li>
-                    <a href="criar_categoria">Criar nova categoria</a>
+                    <a href="criar_categoria">Create new categorie</a>
                 </li>
                 {% endif %}
             </ul>
             {% else %}
-            <p>Não há categorias disponíveis.</p>
+            <p>There are no categories</p>
+            {% if request.user.is_superuser %}
+                <li>
+                    <a href="criar_categoria">Create new categorie</a>
+                </li>
+                {% endif %}
             {% endif %}
         </div>
     </nav>
@@ -196,10 +201,10 @@
 <div class="container">
     <footer class="py-3 my-4">
         <ul class="nav justify-content-center border-bottom pb-3 mb-3">
-            <li class="nav-item"><a href="#" class="nav-link px-2 text-muted">Home</a></li>
-            <li class="nav-item"><a href="#" class="nav-link px-2 text-muted">Iscte</a></li>
-            <li class="nav-item"><a href="#" class="nav-link px-2 text-muted">Fénix</a></li>
-            <li class="nav-item"><a href="#" class="nav-link px-2 text-muted">Moodle</a></li>
+            <li class="nav-item"><a href="{% url 'loja:index' %}" class="nav-link px-2 text-muted">Home</a></li>
+            <li class="nav-item"><a target="_blank" href="https://www.iscte-iul.pt/" class="nav-link px-2 text-muted">Iscte</a></li>
+            <li class="nav-item"><a target="_blank" href="https://fenix.iscte-iul.pt" class="nav-link px-2 text-muted">Fénix</a></li>
+            <li class="nav-item"><a target="_blank" href="https://moodle.iscte-iul.pt" class="nav-link px-2 text-muted">Moodle</a></li>
             <li class="nav-item"><a href="#" class="nav-link px-2 text-muted">Sobre</a></li>
         </ul>
         <p class="text-center text-muted">© 2022 Merch@ISCTE, Inc</p>
