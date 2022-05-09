@@ -78,10 +78,9 @@ Category
             <p>There are no products available.</p>
             {% endif %}
             {% endif %}
-            <a href="{% url 'loja:apagar_categoria' categoria.id %}">Delete Category</a>
         </div>
         {% if request.user.is_superuser %}
-        <a href="{% url 'loja:apagar_categoria' categoria.id %}">Delete category</a>
+        <a href="{% url 'loja:apagar_categoria' categoria.id %}">Delete Category</a>
         {% endif %}
 
     </div>
