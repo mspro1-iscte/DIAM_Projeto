@@ -11,21 +11,17 @@ Profile
 
 <div class="col-md">
     <div class="row d-flex justify-content-center m-5"><img src="{{ request.user.cliente.foto }}" class="rounded-circle " style="width: 15%;" ></div>
+    <div class="row d-flex justify-content-center ">Username: {{ request.user.cliente.user.username}} </div>
     <div class="row d-flex justify-content-center ">Email: {{ request.user.cliente.user.email}} </div>
-    <div class="row d-flex justify-content-center ">Curse: {{ request.user.cliente.curso }}</div>
+    <div class="row d-flex justify-content-center ">Course: {{ request.user.cliente.curso }}</div>
     <div class="row d-flex justify-content-center ">Date Joined: {{ request.user.date_joined}}</div>
     <div class="row d-flex justify-content-center ">Last Login: {{ request.user.last_login}}</div>
     <br>
     <div class="d-flex justify-content-center ">
-        <a href="{% url 'loja:editar_user' %}" class="btn ">Edit User</a>
+        <a href="{% url 'loja:editar_user' %}" class="btn btn-primary">Edit User</a>
     </div>
 </div>
 
-
-{% else %}
-<div class="col-md">
-    <img src= "{{'/static/media/avatardefault.png'}}" width="100" height="100" >
-</div>
 {% endif %}
 
 {% endblock %}

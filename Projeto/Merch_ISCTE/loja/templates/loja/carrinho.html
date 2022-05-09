@@ -1,16 +1,17 @@
-{% extends "loja/index.html" %} 
-{% block title %} 
+{% extends "loja/index.html" %}
+{% block title %}
 Shopping Cart
-{% endblock %} 
-{% block blocobody %} 
+{% endblock %}
+{% block blocobody %}
+<div class="container-md mx-auto my-5"><h1 class="text-center">Shopping Cart</h1></div>
 {% if lista_carrinho %}
 {% for produto in lista_carrinho %}
-<div class="container-md mx-auto my-5"><h1 class="text-center">Carrinho</h1></div>
 <div class="container-md mx-auto">
     <ul class="list-group">
         <li class="list-group-item p-3">
             <div class="row align-items-center">
-                <div class="col text-center"><img src="{{ produto.foto }}" class="rounded float-start" width="100" alt="" /></div>
+                <div class="col text-center"><img src="{{ produto.foto }}" class="rounded float-start" width="100"
+                                                  alt=""/></div>
                 <div class="col text-center">
                     {{ produto.produto_nome }}
                 </div>
@@ -26,8 +27,21 @@ Shopping Cart
     </ul>
 
 </div>
-{% endfor %} 
+{% endfor %}
+<div class="container-md mx-auto">
+    <ul class="list-group">
+        <li class="list-group-item p-3">
+            <div class="row align-items-center">
+                <div class="col text-begin">Total: {{ total }}</div>
+                <div class="col text-end ">
+                    <a href="{% url 'loja:comprar' %}" class="btn btn-primary">Buy</a>
+                </div>
+            </div>
+        </li>
+    </ul>
+
+</div>
 {% else %}
 <p>There are no products on shooping cart.</p>
-{% endif %} 
+{% endif %}
 {% endblock %}
