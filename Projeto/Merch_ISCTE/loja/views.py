@@ -10,6 +10,10 @@ from django.contrib.auth.decorators import login_required, permission_required, 
 
 from .models import Cliente, Produto, Categoria
 
+from django import template
+
+register = template.Library()
+
 
 # --------------------- Base / Login ---------------------
 
@@ -220,7 +224,7 @@ def carrinho(request):
         produto = get_object_or_404(Produto, pk=int(produto_id))
         lista_produtos.append(produto)
         total += produto.preco_data * lista_carrinho[produto_id]
-    context = {'lista_carrinho': lista_produtos, 'total': total}
+    context = {'lista_carrinho': lista_produtos, 'total': total, 'lista_carrinho_dict': lista_carrinho}
     return render(request, 'loja/carrinho.html', context)
 
 
@@ -228,14 +232,7 @@ def adicionar_produto(request,produto_id):
     lista_carrinho = request.session['lista_carrinho']
     lista_carrinho[str(produto_id)] += 1
     request.session['lista_carrinho'] = lista_carrinho
-    lista_produtos = []
-    total = 0
-    for produto_id in lista_carrinho:
-        produto = get_object_or_404(Produto, pk=int(produto_id))
-        lista_produtos.append(produto)
-        total += produto.preco_data * lista_carrinho[produto_id]
-    context = {'lista_carrinho': lista_produtos, 'total': total}
-    return render(request, 'loja/carrinho.html', context)
+    return HttpResponseRedirect(reverse('loja:carrinho'))
 
 
 def remover_produto(request, produto_id):
@@ -243,14 +240,14 @@ def remover_produto(request, produto_id):
     if lista_carrinho[str(produto_id)] >= 2:
         lista_carrinho[str(produto_id)] -= 1
     request.session['lista_carrinho'] = lista_carrinho
-    lista_produtos = []
-    total = 0
-    for produto_id in lista_carrinho:
-        produto = get_object_or_404(Produto, pk=int(produto_id))
-        lista_produtos.append(produto)
-        total += produto.preco_data * lista_carrinho[produto_id]
-    context = {'lista_carrinho': lista_produtos, 'total': total}
-    return render(request, 'loja/carrinho.html', context)
+    return HttpResponseRedirect(reverse('loja:carrinho'))
+
+
+@register.filter('get_value_from_dict')
+def get_value_from_dict(dict_data, key):
+    if key:
+        return dict_data.get(key)
+
 
 def adicionar_carrinho(request, produto_id):
         if not 'lista_carrinho' in request.session or not request.session['lista_carrinho']:
