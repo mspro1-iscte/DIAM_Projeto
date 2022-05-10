@@ -22,7 +22,14 @@ Shopping Cart
                 <div class="col text-center">
                     {{ produto.preco_data}}$
                 </div>
-                <div class="col text-end">
+                <div class="col">
+                    <ul class="pagination al justify-content-center">
+                        <li class="page-item"><a class="page-link" href="#">+</a></li>
+                        <li class="page-item"><a class="page-link" href="#">1</a></li>
+                        <li class="page-item"><a class="page-link" href="#">-</a></li>
+                      </ul>
+                </div>
+                <div class="col text-center">
                     <a href="{% url 'loja:remover_carrinho' produto.id %}" class="btn btn-primary">
                         Remove</a>
                 </div>

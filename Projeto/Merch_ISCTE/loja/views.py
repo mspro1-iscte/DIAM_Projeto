@@ -216,15 +216,15 @@ def carrinho(request):
     lista_ids = request.session['lista_carrinho']
     lista_carrinho = []
     total = 0
-    for id in lista_ids:
-        produto = get_object_or_404(Produto, pk=id)
+    for produto_id in lista_ids.items():
+        produto = get_object_or_404(Produto, pk=produto_id)
         lista_carrinho.append(produto)
-        total += produto.preco_data
+        total += produto.preco_data * lista_ids[produto_id]
     context = {'lista_carrinho': lista_carrinho, 'total': total}
     return render(request, 'loja/carrinho.html', context)
 
 
-def adicionar_carrinho(request, produto_id):
+""" def adicionar_carrinho(request, produto_id):
     if not 'lista_carrinho' in request.session or not request.session['lista_carrinho']:
         request.session['lista_carrinho'] = [produto_id]
 
@@ -233,7 +233,24 @@ def adicionar_carrinho(request, produto_id):
         if not produto_id in lista_carrinho:
             lista_carrinho.append(produto_id)
         request.session['lista_carrinho'] = lista_carrinho
-    return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
+    return HttpResponseRedirect(request.META.get('HTTP_REFERER')) """
+
+def adicionar_carrinho(request, produto_id):
+        if not 'lista_carrinho' in request.session or not request.session['lista_carrinho']:
+            #request.session['lista_carrinho'] = dict({'produto_id':produto_id, 'numero':1})
+            request.session['lista_carrinho'] = {produto_id:1}
+            print(request.session['lista_carrinho'])
+        else:
+            lista_carrinho = request.session['lista_carrinho']
+            if not produto_id in lista_carrinho:
+                
+                print(lista_carrinho)
+                request.session['lista_carrinho'] = lista_carrinho
+            else:
+                lista_carrinho[produto_id]=lista_carrinho.get(produto_id)+1
+                request.session['lista_carrinho'] = lista_carrinho
+                print(lista_carrinho)
+        return HttpResponseRedirect(request.META.get('HTTP_REFERER'))    
 
 def comprar(request):
     request.session['lista_carrinho'] = []
