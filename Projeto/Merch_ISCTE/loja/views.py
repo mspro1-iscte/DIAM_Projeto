@@ -10,10 +10,6 @@ from django.contrib.auth.decorators import login_required, permission_required, 
 
 from .models import Cliente, Produto, Categoria
 
-from django import template
-
-register = template.Library()
-
 
 # --------------------- Base / Login ---------------------
 
@@ -241,12 +237,6 @@ def remover_produto(request, produto_id):
         lista_carrinho[str(produto_id)] -= 1
     request.session['lista_carrinho'] = lista_carrinho
     return HttpResponseRedirect(reverse('loja:carrinho'))
-
-
-@register.filter('get_value_from_dict')
-def get_value_from_dict(dict_data, key):
-    if key:
-        return dict_data.get(key)
 
 
 def adicionar_carrinho(request, produto_id):
