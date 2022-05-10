@@ -36,6 +36,10 @@ urlpatterns = [
     path('carrinho', views.carrinho, name='carrinho'),
     # ex: loja/comprar
     path('comprar', views.comprar, name='comprar'),
+    # ex: loja/adicionar_produto
+    path('adicionar_produto/<int:produto_id>', views.adicionar_produto, name='adicionar_produto'),
+    # ex: loja/remover_produto
+    path('remover_produto/<int:produto_id>', views.remover_produto, name='remover_produto'),
 
     # ex: loja/detalhe_produto
     path('detalhe_produto/<int:produto_id>', views.detalhe_produto, name='detalhe_produto'),

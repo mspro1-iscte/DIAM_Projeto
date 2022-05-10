@@ -213,43 +213,54 @@ def procurar_produto(request):
 # --------------------- Carrinho ---------------------
 
 def carrinho(request):
-    lista_ids = request.session['lista_carrinho']
-    lista_carrinho = []
+    lista_carrinho = request.session['lista_carrinho']
+    lista_produtos = []
     total = 0
-    for produto_id in lista_ids.items():
-        produto = get_object_or_404(Produto, pk=produto_id)
-        lista_carrinho.append(produto)
-        total += produto.preco_data * lista_ids[produto_id]
-    context = {'lista_carrinho': lista_carrinho, 'total': total}
+    for produto_id in lista_carrinho:
+        produto = get_object_or_404(Produto, pk=int(produto_id))
+        lista_produtos.append(produto)
+        total += produto.preco_data * lista_carrinho[produto_id]
+    context = {'lista_carrinho': lista_produtos, 'total': total}
     return render(request, 'loja/carrinho.html', context)
 
 
-""" def adicionar_carrinho(request, produto_id):
-    if not 'lista_carrinho' in request.session or not request.session['lista_carrinho']:
-        request.session['lista_carrinho'] = [produto_id]
+def adicionar_produto(request,produto_id):
+    lista_carrinho = request.session['lista_carrinho']
+    lista_carrinho[str(produto_id)] += 1
+    request.session['lista_carrinho'] = lista_carrinho
+    lista_produtos = []
+    total = 0
+    for produto_id in lista_carrinho:
+        produto = get_object_or_404(Produto, pk=int(produto_id))
+        lista_produtos.append(produto)
+        total += produto.preco_data * lista_carrinho[produto_id]
+    context = {'lista_carrinho': lista_produtos, 'total': total}
+    return render(request, 'loja/carrinho.html', context)
 
-    else:
-        lista_carrinho = request.session['lista_carrinho']
-        if not produto_id in lista_carrinho:
-            lista_carrinho.append(produto_id)
-        request.session['lista_carrinho'] = lista_carrinho
-    return HttpResponseRedirect(request.META.get('HTTP_REFERER')) """
+
+def remover_produto(request, produto_id):
+    lista_carrinho = request.session['lista_carrinho']
+    if lista_carrinho[str(produto_id)] >= 2:
+        lista_carrinho[str(produto_id)] -= 1
+    request.session['lista_carrinho'] = lista_carrinho
+    lista_produtos = []
+    total = 0
+    for produto_id in lista_carrinho:
+        produto = get_object_or_404(Produto, pk=int(produto_id))
+        lista_produtos.append(produto)
+        total += produto.preco_data * lista_carrinho[produto_id]
+    context = {'lista_carrinho': lista_produtos, 'total': total}
+    return render(request, 'loja/carrinho.html', context)
 
 def adicionar_carrinho(request, produto_id):
         if not 'lista_carrinho' in request.session or not request.session['lista_carrinho']:
-            #request.session['lista_carrinho'] = dict({'produto_id':produto_id, 'numero':1})
-            request.session['lista_carrinho'] = {produto_id:1}
-            print(request.session['lista_carrinho'])
+            dictionary = dict([(produto_id,1)])
+            request.session['lista_carrinho'] = dictionary
         else:
             lista_carrinho = request.session['lista_carrinho']
-            if not produto_id in lista_carrinho:
-                
-                print(lista_carrinho)
+            if not str(produto_id) in lista_carrinho:
+                lista_carrinho[produto_id] = 1
                 request.session['lista_carrinho'] = lista_carrinho
-            else:
-                lista_carrinho[produto_id]=lista_carrinho.get(produto_id)+1
-                request.session['lista_carrinho'] = lista_carrinho
-                print(lista_carrinho)
         return HttpResponseRedirect(request.META.get('HTTP_REFERER'))    
 
 def comprar(request):
@@ -260,6 +271,6 @@ def comprar(request):
 
 def remover_carrinho(request, produto_id):
     lista_carrinho = request.session['lista_carrinho']
-    lista_carrinho.remove(produto_id)
+    lista_carrinho.pop(str(produto_id),None)
     request.session['lista_carrinho'] = lista_carrinho
     return HttpResponseRedirect(reverse('loja:carrinho'))

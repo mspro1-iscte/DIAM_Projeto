@@ -7,6 +7,12 @@ Shopping Cart
 {% endblock %}
 
 {% block blocobody %}
+<script type="text/javascript">
+    var counter = 1;
+    function increment(){
+        counter++;
+       }
+</script>
 <div class="container-md mx-auto my-5"><h1 class="text-center">Shopping Cart</h1></div>
 {% if lista_carrinho %}
 {% for produto in lista_carrinho %}
@@ -24,9 +30,9 @@ Shopping Cart
                 </div>
                 <div class="col">
                     <ul class="pagination al justify-content-center">
-                        <li class="page-item"><a class="page-link" href="#">+</a></li>
-                        <li class="page-item"><a class="page-link" href="#">1</a></li>
-                        <li class="page-item"><a class="page-link" href="#">-</a></li>
+                        <li class="page-item"><a class="page-link" onclick="increment()" href="{% url 'loja:adicionar_produto' produto.id %}">+</a></li>
+                        <li class="page-item"></li>
+                        <li class="page-item"><a class="page-link" href="{% url 'loja:remover_produto' produto.id %}">-</a></li>
                       </ul>
                 </div>
                 <div class="col text-center">
