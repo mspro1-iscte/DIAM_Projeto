@@ -19,7 +19,7 @@ Search
                     <h5 class="card-title">{{ produto.produto_nome }}</h5>
                 </div>
                 <ul class="list-group list-group-flush">
-                    <li class="list-group-item">Price: {{ produto.preco_data }}</li>
+                    <li class="list-group-item">Price: {{ produto.preco_data }}$</li>
                 </ul>
                 <div class="card-body">
                     <a href="{% url 'loja:adicionar_carrinho' produto.id %}" class="btn ">

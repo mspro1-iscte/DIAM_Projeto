@@ -27,6 +27,12 @@ class Produto(models.Model):
         return self.__dict__
 
 
+class ProdutoImages(models.Model):
+    produto = models.ForeignKey(Produto, on_delete=models.CASCADE)
+    foto = models.CharField(max_length=100)
+
+
+
 class Cliente(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     curso = models.CharField(max_length=100)
