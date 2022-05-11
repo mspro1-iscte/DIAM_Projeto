@@ -5,76 +5,79 @@ Search
 {% endblock %}
 
 {% block blocobody %}
-<div class="container-fluid d-md-flex align-items-stretch">
+<div class="container-fluid">
+    <div class="row">
+        <div class="col">
+            <div id="content" class="">
+                <div class="m-5"><h5>Search Results</h5></div>
+                <div class="row justify-content-center" style="margin-left:0px;margin-right:0px;">
+                    {% if lista_produto %}
+                    {% for produto in lista_produto %}
 
-    <div id="content" class="p-4 p-md-5 pt-5">
-        <p>Search Results:</p>
-        <div class="row justify-content-center" style="margin-left:0px;margin-right:0px;">
-            {% if lista_produto %}
-            {% for produto in lista_produto %}
-
-            <div class="card" style="width: 18rem;">
-                <img src="{{ produto.foto }}" class="card-img-top" alt="...">
-                <div class="card-body">
-                    <h5 class="card-title">{{ produto.produto_nome }}</h5>
-                </div>
-                <ul class="list-group list-group-flush">
-                    <li class="list-group-item">Price: {{ produto.preco_data }}$</li>
-                </ul>
-                <div class="card-body">
-                    <a href="{% url 'loja:adicionar_carrinho' produto.id %}" class="btn ">
-                        <img width="35" height="35" src="{{'/static/media/shoppingcart.png'}}">
-                    </a>
-                    <a href="{% url 'loja:detalhe_produto' produto.id %}" type="button" class="btn btn-primary">
-                        Product Details
-                    </a>
-                    {% if request.user.is_superuser %}
-                    <a href="{% url 'loja:apagar_produto' produto.id %}">Delete Product</a>
-                    <a href="{% url 'loja:editar_produto' produto.id %}">Edit Product</a>
+                    <div class="card card p-1 m-2" style="width: 18rem;">
+                        <img src="{{ produto.foto }}" class="card-img-top" alt="...">
+                        <div class="card-body">
+                            <h5 class="card-title">{{ produto.produto_nome }}</h5>
+                        </div>
+                        <ul class="list-group list-group-flush">
+                            <li class="list-group-item">Price: {{ produto.preco_data }}$</li>
+                        </ul>
+                        <div class="card-body">
+                            <a href="{% url 'loja:adicionar_carrinho' produto.id %}" class="btn ">
+                                <img width="35" height="35" src="{{'/static/media/shoppingcart.png'}}">
+                            </a>
+                            <a href="{% url 'loja:detalhe_produto' produto.id %}" type="button" class="btn btn-primary">
+                                Product Details
+                            </a>
+                            {% if request.user.is_superuser %}
+                            <a href="{% url 'loja:apagar_produto' produto.id %}">Delete Product</a>
+                            <a href="{% url 'loja:editar_produto' produto.id %}">Edit Product</a>
+                            {% endif %}
+                        </div>
+                    </div>
+                    {% endfor %}
+                    {% else %}
+                    {% if not request.user.is_superuser %}
+                    <div class="m-5">No products found.</div>
+                    {% endif %}
                     {% endif %}
                 </div>
-            </div>
-            {% endfor %}
-            {% else %}
-            {% if not request.user.is_superuser %}
-            <p>No products found.</p>
-            {% endif %}
-            {% endif %}
-        </div>
 
-    </div>
-    <nav id="sidebar">
-        <div class="p-4 pt-5">
-            <h5>Categories</h5>
-            {% if lista_categoria %}
-            <ul class="list-unstyled components mb-5">
-                <li>
-                    <a href="{% url 'loja:index' %}">All products</a>
-                </li>
-                {% for categoria in lista_categoria %}
-                <li>
-                    <a href="{% url 'loja:detalhe_categoria' categoria.id %}">{{ categoria.categoria_nome }}</a>
-                </li>
-                {% endfor %}
-                {% if request.user.is_superuser %}
-                <li>
-                    <a href="{% url 'loja:criar_categoria'%}">Create new category</a>
-                </li>
-                {% endif %}
-            </ul>
-            {% else %}
-            <p>There are no categories</p>
-            {% if request.user.is_superuser %}
-                <li>
-                    <a href="criar_categoria">Create new category</a>
-                </li>
-            {% endif %}
-            {% endif %}
+            </div>
         </div>
-    </nav>
+        <div class="col-2">
+            <nav id="sidebar">
+                <div class="p-4 pt-5">
+                    <h5>Categories</h5>
+                    {% if lista_categoria %}
+                    <ul class="list-unstyled components mb-5">
+                        <li>
+                            <a href="{% url 'loja:index' %}">All products</a>
+                        </li>
+                        {% for categoria in lista_categoria %}
+                        <li>
+                            <a href="{% url 'loja:detalhe_categoria' categoria.id %}">{{ categoria.categoria_nome }}</a>
+                        </li>
+                        {% endfor %}
+                        {% if request.user.is_superuser %}
+                        <li>
+                            <a href="{% url 'loja:criar_categoria'%}">Create new category</a>
+                        </li>
+                        {% endif %}
+                    </ul>
+                    {% else %}
+                    <p>There are no categories</p>
+                    {% if request.user.is_superuser %}
+                    <li>
+                        <a href="criar_categoria">Create new category</a>
+                    </li>
+                    {% endif %}
+                    {% endif %}
+                </div>
+            </nav>
+        </div>
+    </div>
 </div>
 
 
 {% endblock %}
-
-
