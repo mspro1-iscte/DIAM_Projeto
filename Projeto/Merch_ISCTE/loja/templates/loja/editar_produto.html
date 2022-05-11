@@ -44,21 +44,6 @@ Edit Product
             <label for="produto_file" class="form-label">Product Image</label>
             <input class="form-control" type="file" id="produto_file" name="produto_file">
         </div>
-        <div class="mb-3">
-            <form action="#" enctype="multipart/form-data" method="post">
-                {% csrf_token %}
-                <ul class="list-group">
-                    <div class="row align-items-center">
-                        <div class="col "><label class="form-label">Secondary Product Image</label></div>
-                        <div class="col-6 "><input class="form-control" type="file" id="produto_file_secondary"
-                                                            name="produto_file_secondary"></div>
-                        <div class="col text-end">
-                            <button type="submit" class="btn btn-primary">Add</button>
-                        </div>
-                    </div>
-                </ul>
-            </form>
-        </div>
         <button type="submit" class="btn btn-primary">Submit</button>
     </form>
 </div>
