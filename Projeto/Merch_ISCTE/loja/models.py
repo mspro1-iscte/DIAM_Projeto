@@ -15,7 +15,7 @@ class Produto(models.Model):
     preco_data = models.DecimalField(default=0.0, decimal_places=2, max_digits=5)
     categoria = models.ForeignKey(Categoria, blank=True, null=True, on_delete=models.RESTRICT)
     # prevemos que apagar uma categoria significa uma alteração manual, e a reposição será manual também
-    foto = models.CharField(max_length=100, default='/static/media/avatardefault.png')
+    foto = models.CharField(max_length=100, default='/static/media/defaultProduct.png')
 
     def __str__(self):
         return self.produto_nome

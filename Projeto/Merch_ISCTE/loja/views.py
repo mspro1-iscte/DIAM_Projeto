@@ -251,7 +251,7 @@ def adicionar_carrinho(request, produto_id):
         return HttpResponseRedirect(request.META.get('HTTP_REFERER'))    
 
 def comprar(request):
-    request.session['lista_carrinho'] = []
+    request.session['lista_carrinho'] = {}
     return HttpResponseRedirect(reverse('loja:index'))
 
 
