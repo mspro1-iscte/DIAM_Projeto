@@ -16,11 +16,30 @@ from .models import Cliente, Produto, Categoria
 def home(request):
     return render(request, 'loja/home.html')
 
+
 def index(request):
+    try:
+        categoria_id = request.session['categoria']
+    except KeyError:
+        request.session['categoria'] = 0
+        categoria_id = request.session['categoria']
     lista_categoria = Categoria.objects.all()
-    lista_produto = Produto.objects.all()
-    context = {'lista_categoria': lista_categoria, 'lista_produto': lista_produto}
+    if categoria_id == 0:
+        lista_produto = Produto.objects.all()
+        context = {'lista_categoria': lista_categoria, 'lista_produto': lista_produto}
+    else:
+        categoria = get_object_or_404(Categoria, pk=categoria_id)
+        lista_produto = []
+        for p in Produto.objects.all():
+            if p.categoria_id == categoria_id:
+                lista_produto.append(p)
+        context = {'lista_produto': lista_produto, 'categoria': categoria, 'lista_categoria': lista_categoria}
     return render(request, 'loja/index.html', context)
+
+
+def util(request,categoria_id):
+    request.session['categoria'] = categoria_id
+    return HttpResponseRedirect(reverse('loja:index'))
 
 
 def loginview(request):
@@ -30,14 +49,14 @@ def loginview(request):
     if user is not None:
         login(request, user)
         request.session['lista_carrinho'] = []
-        return HttpResponseRedirect(reverse('loja:index'))
+        return HttpResponseRedirect(reverse('loja:home'))
     else:
-        return HttpResponseRedirect(reverse('loja:index'))
+        return HttpResponseRedirect(reverse('loja:home'))
 
 
 def logoutview(request):
     logout(request)
-    return HttpResponseRedirect(reverse('loja:index'))
+    return HttpResponseRedirect(reverse('loja:home'))
 
 
 def registaruser(request):
@@ -61,7 +80,7 @@ def registo(request):
         cliente = Cliente(user=user, curso=curso)
     cliente.save()
     login(request, user)
-    return HttpResponseRedirect(reverse('loja:index'))
+    return HttpResponseRedirect(reverse('loja:home'))
 
 
 def perfil(request):
@@ -169,23 +188,12 @@ def apagar_categoria(request, categoria_id):
         if p.categoria_id == categoria_id:
             lista_produto.append(p)
     context = {'lista_produto': lista_produto, 'categoria': record, 'lista_categoria': lista_categoria,
-               'delete_category_error':"Category cannot be removed once it features products, removes products or changes their category."}
+               'delete_category_error':"Category cannot be removed once it features products, delete all products or change their category."}
     for p in Produto.objects.all():
         if p.categoria_id == categoria_id:
-            return render(request, 'loja/detalhe_categoria.html', context)
+            return render(request, 'loja/index.html', context)
     record.delete()
-    return HttpResponseRedirect(reverse('loja:index'))
-
-
-def detalhe_categoria(request, categoria_id):
-    categoria = get_object_or_404(Categoria, pk=categoria_id)
-    lista_categoria = Categoria.objects.all()
-    lista_produto = []
-    for p in Produto.objects.all():
-        if p.categoria_id == categoria_id:
-            lista_produto.append(p)
-    context = {'lista_produto': lista_produto, 'categoria': categoria, 'lista_categoria': lista_categoria}
-    return render(request, 'loja/detalhe_categoria.html', context)
+    return HttpResponseRedirect(reverse('loja:util', args=(0,)))
 
 
 def nova_categoria(request):

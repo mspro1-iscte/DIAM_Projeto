@@ -52,11 +52,11 @@ Search
                     {% if lista_categoria %}
                     <ul class="list-unstyled components mb-5">
                         <li>
-                            <a href="{% url 'loja:index' %}">All products</a>
+                            <a href="{% url 'loja:util' 0 %}">All products</a>
                         </li>
                         {% for categoria in lista_categoria %}
                         <li>
-                            <a href="{% url 'loja:detalhe_categoria' categoria.id %}">{{ categoria.categoria_nome }}</a>
+                            <a href="{% url 'loja:util' categoria.id %}">{{ categoria.categoria_nome }}</a>
                         </li>
                         {% endfor %}
                         {% if request.user.is_superuser %}
@@ -69,7 +69,7 @@ Search
                     <p>There are no categories</p>
                     {% if request.user.is_superuser %}
                     <li>
-                        <a href="criar_categoria">Create new category</a>
+                        <a href="{% url 'loja:criar_categoria' %}">Create new category</a>
                     </li>
                     {% endif %}
                     {% endif %}
