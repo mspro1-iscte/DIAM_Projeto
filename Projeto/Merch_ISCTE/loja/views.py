@@ -144,6 +144,8 @@ def detalhe_produto(request, produto_id):
                 print()
     if request.user.is_superuser:
         already_voted = True
+    if not request.user.is_authenticated:
+        already_voted = True
 
     if count > 0:
         media = round(total / count,2)
