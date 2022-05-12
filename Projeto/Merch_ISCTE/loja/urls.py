@@ -42,6 +42,8 @@ urlpatterns = [
     path('adicionar_produto/<int:produto_id>', views.adicionar_produto, name='adicionar_produto'),
     # ex: loja/remover_produto
     path('remover_produto/<int:produto_id>', views.remover_produto, name='remover_produto'),
+    # ex: loja/rate_produto
+    path('rate_produto/<int:produto_id>', views.rate_produto, name='rate_produto'),
 
     # ex: loja/detalhe_produto
     path('detalhe_produto/<int:produto_id>', views.detalhe_produto, name='detalhe_produto'),

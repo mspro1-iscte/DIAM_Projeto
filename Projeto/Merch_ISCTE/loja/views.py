@@ -8,7 +8,7 @@ from django.core import serializers
 import json
 from django.contrib.auth.decorators import login_required, permission_required, user_passes_test
 
-from .models import Cliente, Produto, Categoria
+from .models import Cliente, Produto, Categoria, Rating
 
 
 # --------------------- Base / Login ---------------------
@@ -130,7 +130,34 @@ def apagar_produto(request, produto_id):
 
 def detalhe_produto(request, produto_id):
     produto = get_object_or_404(Produto, pk=produto_id)
-    return render(request, 'loja/detalhe_produto.html', {'produto': produto})
+    total = 0
+    count = 0
+    already_voted = False
+    for rate in Rating.objects.all():
+        if rate.produto == produto:
+            total += rate.rate
+            count +=1
+            try:
+                if request.user.cliente == rate.cliente:
+                    already_voted = True
+            except:
+                print()
+    if request.user.is_superuser:
+        already_voted = True
+
+    if count > 0:
+        media = round(total / count,2)
+    else:
+        media = 0
+    return render(request, 'loja/detalhe_produto.html', {'produto': produto, 'media':media, 'count':count, 'already_voted':already_voted})
+
+
+def rate_produto(request, produto_id):
+    produto = get_object_or_404(Produto, pk=produto_id)
+    rate = request.POST['inlineRadioOptions']
+    rating = Rating(produto=produto, cliente=request.user.cliente, rate=int(rate))
+    rating.save()
+    return HttpResponseRedirect(reverse('loja:detalhe_produto', args=(produto_id,)))
 
 
 def update_produto(request, produto_id):

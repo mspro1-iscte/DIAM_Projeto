@@ -31,3 +31,9 @@ class Cliente(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     curso = models.CharField(max_length=100)
     foto = models.CharField(max_length=100, default='/static/media/avatardefault.png')
+
+
+class Rating(models.Model):
+    produto = models.ForeignKey(Produto, on_delete=models.CASCADE)
+    cliente = models.ForeignKey(Cliente, blank=True, null=True, on_delete=models.SET_NULL)
+    rate = models.IntegerField(default=1)
