@@ -14,7 +14,9 @@ from .models import Cliente, Produto, Categoria, Rating
 # --------------------- Base / Login ---------------------
 
 def home(request):
-    return render(request, 'loja/home.html')
+    lista_produto = Produto.objects.all()
+    context = {'lista_produto': lista_produto}
+    return render(request, 'loja/home.html', context)
 
 
 def index(request):
@@ -148,10 +150,12 @@ def detalhe_produto(request, produto_id):
         already_voted = True
 
     if count > 0:
-        media = round(total / count,2)
+        mediaRound = round(total / count,0)
+        media = round(total / count, 2)
     else:
+        mediaRound = 0
         media = 0
-    return render(request, 'loja/detalhe_produto.html', {'produto': produto, 'media':media, 'count':count, 'already_voted':already_voted})
+    return render(request, 'loja/detalhe_produto.html', {'produto': produto, 'media':media, 'mediaRound': mediaRound, 'count':count, 'already_voted':already_voted})
 
 
 def rate_produto(request, produto_id):
@@ -277,15 +281,15 @@ def remover_produto(request, produto_id):
 
 
 def adicionar_carrinho(request, produto_id):
-        if not 'lista_carrinho' in request.session or not request.session['lista_carrinho']:
-            dictionary = dict([(produto_id,1)])
-            request.session['lista_carrinho'] = dictionary
-        else:
-            lista_carrinho = request.session['lista_carrinho']
-            if not str(produto_id) in lista_carrinho:
-                lista_carrinho[produto_id] = 1
-                request.session['lista_carrinho'] = lista_carrinho
-        return HttpResponseRedirect(request.META.get('HTTP_REFERER'))    
+    if not 'lista_carrinho' in request.session or not request.session['lista_carrinho']:
+        dictionary = dict([(produto_id,1)])
+        request.session['lista_carrinho'] = dictionary
+    else:
+        lista_carrinho = request.session['lista_carrinho']
+        if not str(produto_id) in lista_carrinho:
+            lista_carrinho[produto_id] = 1
+            request.session['lista_carrinho'] = lista_carrinho
+    return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
 
 def comprar(request):
     request.session['lista_carrinho'] = {}
