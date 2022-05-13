@@ -149,6 +149,12 @@ def detalhe_produto(request, produto_id):
     if not request.user.is_authenticated:
         already_voted = True
 
+    media, media_round, px_star = percentagem_votos(count,total)
+
+    return render(request, 'loja/detalhe_produto.html', {'produto': produto, 'media':media, 'mediaRound': media_round, 'count':count, 'already_voted':False, 'px_star':px_star})
+
+
+def percentagem_votos(count, total):
     if count > 0:
         media = round(total / count, 2)
         i, d = divmod(round(total / count, 2), 1)
@@ -163,7 +169,7 @@ def detalhe_produto(request, produto_id):
         px_star = 30
         mediaRound = 0
         media = 0
-    return render(request, 'loja/detalhe_produto.html', {'produto': produto, 'media':media, 'mediaRound': mediaRound, 'count':count, 'already_voted':False, 'px_star':px_star})
+    return (media,mediaRound,px_star)
 
 
 def rate_produto(request, produto_id):
