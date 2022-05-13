@@ -150,12 +150,20 @@ def detalhe_produto(request, produto_id):
         already_voted = True
 
     if count > 0:
-        mediaRound = round(total / count,0)
         media = round(total / count, 2)
+        i, d = divmod(round(total / count, 2), 1)
+        if d == 0:
+            mediaRound = i - 1
+            px_star = 30
+        else:
+            mediaRound = i
+            px_star = round(d * 30,0)
+
     else:
+        px_star = 30
         mediaRound = 0
         media = 0
-    return render(request, 'loja/detalhe_produto.html', {'produto': produto, 'media':media, 'mediaRound': mediaRound, 'count':count, 'already_voted':already_voted})
+    return render(request, 'loja/detalhe_produto.html', {'produto': produto, 'media':media, 'mediaRound': mediaRound, 'count':count, 'already_voted':False, 'px_star':px_star})
 
 
 def rate_produto(request, produto_id):

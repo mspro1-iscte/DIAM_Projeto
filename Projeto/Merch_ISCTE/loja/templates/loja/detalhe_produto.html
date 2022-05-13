@@ -26,17 +26,28 @@ Lista
                         <div class="container mx-auto">
                             <div class="row ">
                                 <div class="col-auto">
-                                    {% with ''|center:mediaRound as range %}
-                                    {% for _ in range %}
-                                    <img width="30" height="30" src="{{'/static/media/star.jpg'}}" >
-                                    {% endfor %}
-                                    {% endwith %}
-                                    {% if media == 0 %}
-                                    <p class="card-text">No rates available.</p>
-                                    {% else %}
-                                    ({{ count }} reviews)
-                                    <p class="card-text">&nbsp{{ media }} in 5</p>
-                                    {% endif %}
+                                    <div class="row ">
+                                        {% with ''|center:mediaRound as range %}
+                                        {% for _ in range %}
+                                        <div class="col-auto" style="padding:0px 3px">
+                                            <img width="30" height="30" src="{{'/static/media/star.jpg'}}">
+                                        </div>
+                                        {% endfor %}
+                                        {% endwith %}
+                                        {% if not media == 0 %}
+                                        <div class="col-auto" style="padding:0px 20px 0px 3px">
+                                            <div class="" style="overflow: hidden;width: {{ px_star }}px;height: 30px;">
+                                                <img style="width:30px; height:30px;margin: 0 -10px 0 0; "
+                                                     src="{{'/static/media/star.jpg'}}">
+                                            </div>
+                                        </div>
+                                        {% endif %}
+                                        {% if media == 0 %}
+                                        <p class="card-text">No rates available.</p>
+                                        {% else %}
+                                        ({{ count }} reviews)
+                                        {% endif %}
+                                    </div>
 
                                 </div>
                                 <div class="col-auto">
