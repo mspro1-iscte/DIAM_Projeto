@@ -169,7 +169,7 @@ def percentagem_votos(count, total):
         px_star = 30
         mediaRound = 0
         media = 0
-    return (media,mediaRound,px_star)
+    return media, mediaRound, px_star
 
 
 def rate_produto(request, produto_id):
