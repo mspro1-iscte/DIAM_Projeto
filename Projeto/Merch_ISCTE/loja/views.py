@@ -151,7 +151,7 @@ def detalhe_produto(request, produto_id):
 
     media, media_round, px_star = percentagem_votos(count,total)
 
-    return render(request, 'loja/detalhe_produto.html', {'produto': produto, 'media':media, 'mediaRound': media_round, 'count':count, 'already_voted':False, 'px_star':px_star})
+    return render(request, 'loja/detalhe_produto.html', {'produto': produto, 'media':media, 'mediaRound': media_round, 'count':count, 'already_voted':already_voted, 'px_star':px_star})
 
 
 def percentagem_votos(count, total):

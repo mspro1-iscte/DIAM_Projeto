@@ -9,7 +9,7 @@ Search
     <div class="row">
         <div class="col">
             <div id="content" class="">
-                <div class="m-5"><h5>Search Results</h5></div>
+                <div class="m-3"><h5>Search Results:</h5></div>
                 <div class="row justify-content-center" style="margin-left:0px;margin-right:0px;">
                     {% if lista_produto %}
                     {% for produto in lista_produto %}
@@ -45,31 +45,37 @@ Search
 
             </div>
         </div>
-        <div class="col-2">
+        <div class="col-2" style="background-color: lightgray; padding:0;">
             <nav id="sidebar">
-                <div class="p-4 pt-5">
-                    <h5>Categories</h5>
+                <div class="p-4 pt-5" style="padding:0;">
                     {% if lista_categoria %}
-                    <ul class="list-unstyled components mb-5">
-                        <li>
-                            <a href="{% url 'loja:util' 0 %}">All products</a>
+                    <ul class="list-group list-group-flush">
+                        <li class="list-group-item" style="background-color: lightgray;">
+                            <h5 class="card-title">Categories</h5>
+                        </li>
+                        <li class="list-group-item" style="background-color: lightgray;">
+                            <a class="link-dark" style="text-decoration: none;" href="{% url 'loja:util' 0 %}">All
+                                products</a>
                         </li>
                         {% for categoria in lista_categoria %}
-                        <li>
-                            <a href="{% url 'loja:util' categoria.id %}">{{ categoria.categoria_nome }}</a>
+                        <li class="list-group-item" style="background-color: lightgray;">
+                            <a class="link-dark" style="text-decoration: none;"
+                               href="{% url 'loja:util' categoria.id %}">{{ categoria.categoria_nome}}</a>
                         </li>
                         {% endfor %}
                         {% if request.user.is_superuser %}
-                        <li>
-                            <a href="{% url 'loja:criar_categoria'%}">Create new category</a>
+                        <li class="list-group-item" style="background-color: lightgray;">
+                            <a class="link-dark" style="text-decoration: none;"
+                               href="{% url 'loja:criar_categoria' %}">Create new category</a>
                         </li>
                         {% endif %}
                     </ul>
                     {% else %}
                     <p>There are no categories</p>
                     {% if request.user.is_superuser %}
-                    <li>
-                        <a href="{% url 'loja:criar_categoria' %}">Create new category</a>
+                    <li class="list-group-item" style="background-color: lightgray;">
+                        <a class="link-dark" style="text-decoration: none;"
+                           href="{% url 'loja:criar_categoria' %}">Create new category</a>
                     </li>
                     {% endif %}
                     {% endif %}
