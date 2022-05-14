@@ -68,6 +68,10 @@ urlpatterns = [
 
     # ex: loja/criar_categoria
     path('criar_categoria', views.criar_categoria, name='criar_categoria'),
+    # ex: loja/editar_categoria
+    path('editar_categoria/<int:categoria_id>', views.editar_categoria, name='editar_categoria'),
+    # ex: loja/update_categoria
+    path('update_categoria/<int:categoria_id>', views.update_categoria, name='update_categoria'),
     # ex: loja/criar_produto
     path('criar_produto/<int:categoria_id>', views.criar_produto, name='criar_produto'),
 

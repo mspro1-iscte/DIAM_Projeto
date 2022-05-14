@@ -153,6 +153,7 @@
                 </div>
                 {% if request.user.is_superuser %}
                 {% if categoria %}
+                <a href="{% url 'loja:editar_categoria' categoria.id %}">Edit Category</a>
                 <a href="{% url 'loja:apagar_categoria' categoria.id %}">Delete Category</a>
                 {% endif %}
                 {% endif %}

@@ -250,6 +250,19 @@ def nova_categoria(request):
     return HttpResponseRedirect(reverse('loja:index'))
 
 
+def editar_categoria(request, categoria_id):
+    categoria = get_object_or_404(Categoria, pk=categoria_id)
+    context = {'categoria': categoria}
+    return render(request, 'loja/editar_categoria.html', context)
+
+
+def update_categoria(request, categoria_id):
+    categoria = get_object_or_404(Categoria, pk=categoria_id)
+    categoria.categoria_nome = request.POST['categoria_nome']
+    categoria.save()
+    return HttpResponseRedirect(reverse('loja:index'))
+
+
 def procurar_produto(request):
     produto_nome = request.POST['produto_procura']
     lista_categoria = Categoria.objects.all()
