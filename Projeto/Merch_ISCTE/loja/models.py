@@ -1,3 +1,4 @@
+import datetime
 from django.contrib.auth.models import User
 from django.db import models
 
@@ -37,3 +38,10 @@ class Rating(models.Model):
     produto = models.ForeignKey(Produto, on_delete=models.CASCADE)
     cliente = models.ForeignKey(Cliente, blank=True, null=True, on_delete=models.SET_NULL)
     rate = models.IntegerField(default=1)
+
+
+class Compras(models.Model):
+    cliente = models.ForeignKey(Cliente, blank=True, null=True, on_delete=models.SET_NULL)
+    produtos = models.ManyToManyField(Produto, blank=True, null=True)
+    total = models.DecimalField(decimal_places=2, max_digits=5)
+    date = models.DateField(default=datetime.datetime.now())

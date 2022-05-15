@@ -8,7 +8,7 @@ from django.core import serializers
 import json
 from django.contrib.auth.decorators import login_required, permission_required, user_passes_test
 
-from .models import Cliente, Produto, Categoria, Rating
+from .models import Cliente, Produto, Categoria, Rating, Compras
 
 
 # --------------------- Base / Login ---------------------
@@ -318,10 +318,27 @@ def adicionar_carrinho(request, produto_id):
             request.session['lista_carrinho'] = lista_carrinho
     return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
 
-def comprar(request):
+
+def comprar(request, value='total'):
+    lista_carrinho = request.session['lista_carrinho']
+    compra = Compras.objects.create(cliente=request.user.cliente, total=float(value))
+    for produto_id in lista_carrinho:
+        produto = get_object_or_404(Produto, pk=int(produto_id))
+        compra.produtos.add(produto)
+    compra.save()
     request.session['lista_carrinho'] = {}
     return HttpResponseRedirect(reverse('loja:index'))
 
+
+def buy_history(request):
+    if request.user.is_superuser:
+        lista_compras = Compras.objects.all()
+    else:
+        lista_compras = []
+        for compra in Compras.objects.all():
+            if compra.cliente == request.user.cliente:
+                lista_compras.append(compra)
+    return render(request, 'loja/buy_history.html', {'lista_compras':lista_compras})
 
 
 def remover_carrinho(request, produto_id):
@@ -329,3 +346,4 @@ def remover_carrinho(request, produto_id):
     lista_carrinho.pop(str(produto_id),None)
     request.session['lista_carrinho'] = lista_carrinho
     return HttpResponseRedirect(reverse('loja:carrinho'))
+

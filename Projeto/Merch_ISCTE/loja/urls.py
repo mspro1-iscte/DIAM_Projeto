@@ -37,7 +37,7 @@ urlpatterns = [
     # ex: loja/carrinho
     path('carrinho', views.carrinho, name='carrinho'),
     # ex: loja/comprar
-    path('comprar', views.comprar, name='comprar'),
+    path('comprar/value/(?P<value>\d+\.\d{2})/$', views.comprar, name='comprar'),
     # ex: loja/adicionar_produto
     path('adicionar_produto/<int:produto_id>', views.adicionar_produto, name='adicionar_produto'),
     # ex: loja/remover_produto
@@ -74,6 +74,9 @@ urlpatterns = [
     path('update_categoria/<int:categoria_id>', views.update_categoria, name='update_categoria'),
     # ex: loja/criar_produto
     path('criar_produto/<int:categoria_id>', views.criar_produto, name='criar_produto'),
+
+    # ex: loja/buy_history
+    path('buy_history', views.buy_history, name='buy_history'),
 
 
 ]
