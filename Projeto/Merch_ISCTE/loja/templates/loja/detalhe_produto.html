@@ -116,6 +116,10 @@ Lista
                             </div>
                         </div>
                     </li>
+                    <li class="list-group-item">
+                        <br>
+                        <a href="{% url 'loja:comentarios_produto' produto.id %}" class="btn btn-primary">See Comments</a>
+                    </li>
                     <li class="list-group-item"><a href="{% url 'loja:adicionar_carrinho' produto.id %}" class="btn ">
                         <img width="35" height="35" src="{{'/static/media/shoppingcart.png'}}">
                     </a></li>

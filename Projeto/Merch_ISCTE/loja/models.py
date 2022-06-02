@@ -40,6 +40,13 @@ class Rating(models.Model):
     rate = models.IntegerField(default=1)
 
 
+class Comentarios(models.Model):
+    produto = models.ForeignKey(Produto, on_delete=models.CASCADE)
+    cliente = models.ForeignKey(Cliente, blank=True, null=True, on_delete=models.SET_NULL)
+    comentario = models.CharField(max_length=100)
+    date = models.DateField(default=datetime.datetime.now())
+
+
 class Compras(models.Model):
     cliente = models.ForeignKey(Cliente, blank=True, null=True, on_delete=models.SET_NULL)
     produtos = models.ManyToManyField(Produto, blank=True, null=True)

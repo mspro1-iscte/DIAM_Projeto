@@ -1,3 +1,5 @@
+import datetime
+
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import User
 from django.shortcuts import get_object_or_404, render
@@ -8,7 +10,7 @@ from django.core import serializers
 import json
 from django.contrib.auth.decorators import login_required, permission_required, user_passes_test
 
-from .models import Cliente, Produto, Categoria, Rating, Compras
+from .models import Cliente, Produto, Categoria, Rating, Compras, Comentarios
 
 
 # --------------------- Base / Login ---------------------
@@ -31,10 +33,7 @@ def index(request):
         context = {'lista_categoria': lista_categoria, 'lista_produto': lista_produto}
     else:
         categoria = get_object_or_404(Categoria, pk=categoria_id)
-        lista_produto = []
-        for p in Produto.objects.all():
-            if p.categoria_id == categoria_id:
-                lista_produto.append(p)
+        lista_produto = categoria.produto_set.all()
         context = {'lista_produto': lista_produto, 'categoria': categoria, 'lista_categoria': lista_categoria}
     return render(request, 'loja/index.html', context)
 
@@ -180,6 +179,46 @@ def rate_produto(request, produto_id):
     return HttpResponseRedirect(reverse('loja:detalhe_produto', args=(produto_id,)))
 
 
+def comentarios_produto(request, produto_id):
+    produto = get_object_or_404(Produto, pk=produto_id)
+    lista_comentarios = []
+    already_comment = False
+    lista_rates = produto.rating_set.all()
+    for comentario in Comentarios.objects.all():
+        if comentario.produto == produto:
+            lista_comentarios.append(comentario)
+            try:
+                if request.user.cliente == comentario.cliente:
+                    already_comment = True
+            except:
+                print()
+    if request.user.is_superuser:
+        already_comment = True
+    if not request.user.is_authenticated:
+        already_comment = True
+    return render(request, 'loja/comentarios_produto.html', {'lista_comentarios': lista_comentarios, 'already_comment':already_comment,'produto_id':produto_id ,'lista_rates':lista_rates})
+
+
+def comentar_produto(request, produto_id):
+    return render(request, 'loja/comentar_produto.html', {'produto_id':produto_id })
+
+
+def criar_comentario(request, produto_id):
+    produto = get_object_or_404(Produto, pk=produto_id)
+    c = request.POST['comment']
+    if len(c) <= 100:
+        comment = Comentarios(produto=produto, cliente=request.user.cliente, comentario=c)
+        comment.save()
+    return HttpResponseRedirect(reverse('loja:comentarios_produto', args=(produto_id,)))
+
+
+def delete_comment(request, comment_id):
+    comment = get_object_or_404(Comentarios, pk=comment_id)
+    produto_id = comment.produto.id
+    comment.delete()
+    return HttpResponseRedirect(reverse('loja:comentarios_produto', args=(produto_id,)))
+
+
 def update_produto(request, produto_id):
     categoria_id = request.POST['categoria_select']
     produto = get_object_or_404(Produto, pk=produto_id)
@@ -321,7 +360,7 @@ def adicionar_carrinho(request, produto_id):
 
 def comprar(request, value='total'):
     lista_carrinho = request.session['lista_carrinho']
-    compra = Compras.objects.create(cliente=request.user.cliente, total=float(value))
+    compra = Compras.objects.create(cliente=request.user.cliente, total=float(value), date=datetime.datetime.now())
     for produto_id in lista_carrinho:
         produto = get_object_or_404(Produto, pk=int(produto_id))
         compra.produtos.add(produto)
